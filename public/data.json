@@ -1,0 +1,72 @@
+{
+  "characters": [
+      {
+        "id": "R2D",
+        "name": "R2-D2",
+        "affiliation": "light",
+	"profile":"",
+	"color":"red",
+	"gender":"",
+	"startTimestamp":1,
+	"endTimestamp":20
+      },
+       {
+        "id": "DV1",
+        "name": "Anakin Skywalker / Darth Vader",
+	"profile":"",
+	"color":"black",
+	"gender":"",
+	"startTimestamp":1,
+	"endTimestamp":50
+      },
+      {
+        "id": "ST1",
+        "name": "Stormtroopers",
+	"profile":"",
+	"color":"blue",
+	"gender":"",
+	"startTimestamp":1,
+	"endTimestamp":100
+      }
+  ],
+  "scenes": [
+	{
+	 "name":"Scene0",
+	 "startTimestamp":1,
+	 "endTimestamp":3
+	},
+	{
+	 "name":"Scene1",
+	 "groups":[
+		{
+		 "character":["R2D", "DV1","ST1"],
+		 "type":"default"
+		}
+	 ],
+	 "startTimestamp":4,
+	 "endTimestamp":5
+	},
+	{
+	 "name":"Scene2",
+	 "startTimestamp":6,
+	 "endTimestamp":8
+	},
+	{
+	 "name":"Scene4",
+	 "groups":[
+		{
+		 "character":["R2D","DV1","ST1"],
+		 "type":"default"
+		}
+	 ],
+	 "startTimestamp":9,
+	 "endTimestamp":9
+	},
+	{
+	 "name":"Scene5",
+	 "startTimestamp":10,
+	 "endTimestamp":15
+	}
+  ]
+
+}
