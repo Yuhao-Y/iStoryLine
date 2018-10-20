@@ -1,5 +1,6 @@
 var character_width = 8;
 var character_height = 8;
+var character_x = 200;
 var character_y = 20;
 var scenesLen = 20;
 
@@ -22,7 +23,7 @@ d3.json('data.json', function(err, data){
 
     	//draw character
     	var character = svgContainer.append("rect")
-                .attr("x", 0)
+                .attr("x", character_x)
                 .attr("y", i*character_y)
                 .attr("width", character_width)
                 .attr("height", character_height)
@@ -34,7 +35,23 @@ d3.json('data.json', function(err, data){
         characterMap.set(characters[i].id, {x:character_width, y:i*character_y + character_height/2, color:characters[i].color, startTimestamp:characters[i].startTimestamp, endTimestamp:characters[i].endTimestamp});
         
         //get the start point
-        points.push({x:character_width, y:i*character_y + character_height/2});    
+        points.push({x:character_width, y:i*character_y + character_height/2});
+
+        //add text
+        var text = svgContainer.append('g').attr('class','text');
+
+        // Apppend two actual 'text' nodes to fake an 'outside' outline.
+        text.append('text').attr('text-anchor', 'end')
+            .attr('x', character_x - 2)
+            .attr('y', i*character_y + character_height)
+            .attr("font-size",10)
+            .text(characters[i].name); 
+        text.append('text').attr('class', 'color').attr('text-anchor', 'end')
+            .attr('x', character_x - 2)
+            .attr('y', i*character_y + character_height)
+            .attr("font-size",10)
+            .text(characters[i].name); 
+
     }   
 
     var scenesPoint = new Array();
@@ -77,7 +94,7 @@ d3.json('data.json', function(err, data){
 
     		var point = {};
 
- 			point.x = scenes[i].startTimestamp*scenesLen;
+ 			point.x = scenes[i].startTimestamp*scenesLen + character_x;
  			point.y = character.y;
 
         	//draws scenes
