@@ -1,5 +1,5 @@
 var character_width = 8;
-var character_height = 8;
+var character_height = 15;
 var character_x = 200;
 var character_y = 20;
 var scenesLen = 20;
@@ -98,11 +98,10 @@ d3.json('data.json', function(err, data){
  			point.y = character.y;
 
         	//draws scenes
-        	var scene = svgContainer.append("rect")
-            .attr("x", point.x)
-            .attr("y", point.y )
-            .attr("width", 1)
-            .attr("height", 1)
+        	var scene = svgContainer.append("circle")
+            .attr("cx", point.x)
+            .attr("cy", point.y)
+            .attr("r",3)
             .attr("name", scenes[i].name)
             .attr('fill', characters[j].color)
             .attr('class', 'character');
@@ -136,16 +135,59 @@ d3.json('data.json', function(err, data){
  		}     
     }
 
-    //draw the lines
+    //draw the curve lines
     lines.forEach(function(points){
-    	    //draw lines
+
+        var lineGenerator = d3.line()
+            .curve(d3.curveCardinal);
+
+        var line = new Array();
+
+        points.forEach(function(point) {
+            line.push([point.x,point.y]);
+        });
+        
+        var pathData = lineGenerator(line);
+        
+        svgContainer.append('path').attr('d', pathData);
+    });
+
+    drawScienseVerticalLine(lines[0], 100, svgContainer);
+
+    d3.selectAll("circle").call(d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended));
+});
+
+
+
+function dragstarted() {
+  //circles.splice(circles.indexOf(d3.event.subject), 1);
+  //circles.push(d3.event.subject);
+  console.log("drag start");
+  d3.event.subject.active = true;
+}
+
+function dragged(d) {
+    console.log("draging");
+
+  d3.select(this).attr("cy", d3.event.y);
+}
+
+function dragended() {
+    console.log("drag end");
+  d3.event.subject.active = false;
+}
+
+function drawScienseVerticalLine(data, height, svgContainer) {
+    data.forEach(function(pointData) {
         var line = d3.svg.line()
                  .x(function(d) { return d['x']})
                  .y(function(d) { return d['y']});
-        svgContainer.append('path').datum(points).attr('d', line);
+        var point = new Array();
+        point.push({x:pointData.x, y:0});
+        point.push({x:pointData.x, y:height});
+        svgContainer.append('path').attr('d', line(point)).style('stroke', '#6E7B8B').style("stroke-opacity", 0.2).style('stroke-width', 1).style('fill','none');
     });
-
-});
+}
 
 function getScenesList(data) {
 	var scenes = new Array();
