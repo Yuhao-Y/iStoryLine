@@ -1,9 +1,10 @@
 var character_width = 8;
 var character_height = 15;
-var character_x = 200;
-var character_y = 20;
+var character_x = 100;
+var character_y = 30;
 var scenesLen = 20;
-
+var scenseVerLineHeight = character_y + 1;
+var largestScenseCount = 0;
 d3.json('data.json', function(err, data){
 
 	var characters = data.characters;
@@ -57,6 +58,7 @@ d3.json('data.json', function(err, data){
     var scenesPoint = new Array();
 
     for(var i = 0; i < scenes.length; i++) {
+        largestScenseCount = Math.max(largestScenseCount, scenes[i].endTimestamp);
 
     	//move the character in one group more close
     	if(scenes[i].hasOwnProperty("groups")) {
@@ -152,16 +154,15 @@ d3.json('data.json', function(err, data){
         svgContainer.append('path').attr('d', pathData);
     });
 
-    drawScienseVerticalLine(lines[0], 100, svgContainer);
+    drawScienseVerticalLine(lines, svgContainer);
 
+    //add drag event
     d3.selectAll("circle").call(d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended));
 });
 
 
 
 function dragstarted() {
-  //circles.splice(circles.indexOf(d3.event.subject), 1);
-  //circles.push(d3.event.subject);
   console.log("drag start");
   d3.event.subject.active = true;
 }
@@ -177,16 +178,29 @@ function dragended() {
   d3.event.subject.active = false;
 }
 
-function drawScienseVerticalLine(data, height, svgContainer) {
-    data.forEach(function(pointData) {
+function drawScienseVerticalLine(data, svgContainer) {
+
+    for(var i = 1; i < largestScenseCount; i++) {
+        
         var line = d3.svg.line()
                  .x(function(d) { return d['x']})
                  .y(function(d) { return d['y']});
         var point = new Array();
-        point.push({x:pointData.x, y:0});
-        point.push({x:pointData.x, y:height});
+        point.push({x:i*scenesLen + character_x, y:0});
+        point.push({x:i*scenesLen + character_x, y:scenseVerLineHeight * data.length});
+        console.log(point);
         svgContainer.append('path').attr('d', line(point)).style('stroke', '#6E7B8B').style("stroke-opacity", 0.2).style('stroke-width', 1).style('fill','none');
-    });
+    }
+    // data[maxLenIndex].forEach(function(pointData) {
+    //     var line = d3.svg.line()
+    //              .x(function(d) { return d['x']})
+    //              .y(function(d) { return d['y']});
+    //     var point = new Array();
+    //     point.push({x:pointData.x, y:0});
+    //     point.push({x:pointData.x, y:scenseVerLineHeight * largestScenseCount});
+    //     console.log(point);
+    //     svgContainer.append('path').attr('d', line(point)).style('stroke', '#6E7B8B').style("stroke-opacity", 0.2).style('stroke-width', 1).style('fill','none');
+    // });
 }
 
 function getScenesList(data) {
