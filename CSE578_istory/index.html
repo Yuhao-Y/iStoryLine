@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CSE578</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/base/jquery-ui.css">
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script defer src="js/icon/solid.js"></script>
+  <script defer src="js/icon/fontawesome.js"></script>
+  <script src="js/jquery-3.3.1.js"></script>
+  <script src="jquery-ui/jquery-ui.js"></script>
+  <script src="js/jscolor.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+</head>
+<script>
+//panelBarSpan toggle
+$(document).ready(function(){
+  $('.panelBar a').click(function(e) {
+    e.preventDefault();
+    var $this = $("#"+this.id+".panelBarSpan");
+    $(".panelBar div").not($this).hide();
+    $this.toggle("fast");
+    $("#"+this.id+".button").toggleClass('buttonActive');
+    $('a').not(document.getElementById(this.id)).removeClass('buttonActive');
+  });
+});
+
+
+  
+
+</script>
+
+<body>
+    <div class="panelBar">
+        <a id="element" class="button"><i class="fas fa-th-list fa-4x"></i><br>Element</a>
+        <div id="element" class="panelBarSpan">
+          //element - character list/visibility/edit profile 
+        </div>
+        <a id="style" class="button"><i class="fas fa-magic fa-4x"></i><br>Style</a>
+        <div id="style" class="panelBarSpan">
+          //style - line color, opacity, width
+          <p>Color: <br>
+            <input type="button" id="colorButton" class="jscolor {valueElement:null,value:'000000', onFineChange:'setColor(this)'}">
+          </p>
+          <p>Width: 
+              <input type="range" min="1" max="100" value="50" class="slider" id="lineWidth">
+          </p>     
+          <p>Opacity: 
+                  <input type="range" min="1" max="100" value="50" class="slider" id="lineOpacity">
+          </p>   
+
+        
+        
+        
+        
+        </div>
+
+
+        <a id="text" class="button"><i class="fas fa-file-alt fa-4x"></i><br>Text</a>
+        <div id="text" class="panelBarSpan">
+         <p>Textarea:</p>
+         <button onclick="addShortText()">Create short text</button>
+         <br>Click on text to edit content and/or drag text box.<br><br>
+         <button onclick="addParagraph()">Create paragraph</button>
+         <br>Click on text to edit content. Drag text box around and resize within the storyboard. <br><br>
+         <button onclick="removeText()">Create short text</button>
+         <br>Click on text to edit content and/or drag text box.<br><br>
+        </div>
+        <a id="event" class="button"><i class="fas fa-haykal fa-4x"></i><br>Event</a>
+        <div id="event" class="panelBarSpan">
+        //event - add symbols, shapes
+        </div>
+    </div>
+    <div class="storyBoard">
+
+    </div>
+
+    <div class="rightBar" >
+        <a id="addButton"><i class="fas fa-plus"></i></a>
+        <a class="interactButton"><i class="fas fa-save"></i></a>
+        <a class="interactButton"><i class="fas fa-arrows-alt"></i></a>
+        <a class="interactButton"><i class="fas fa-expand"></i></a>
+        <a class="interactButton"><i class="fas fa-hand-paper"></i></a>
+        <a class="interactButton"><i class="fas fa-pen-nib"></i></a>
+        <a class="interactButton"><i class="fas fa-edit"></i></a>
+        <a class="interactButton"><i class="fas fa-undo-alt"></i></a>
+        <a class="interactButton"><i class="fas fa-random"></i></a>
+        <a class="interactButton"><i class="fas fa-i-cursor fa-rotate-90"></i></a>
+        <a class="interactButton"><i class="fas fa-code-branch fa-rotate-90"></i></a>
+    </div>
+
+
+</body>
+<script>
+
+	function setColor(picker) {
+		document.getElementsByTagName('button')[0].style.color = '#' + picker.toString()
+	}
+
+var slider = document.getElementById("myRange");
+    var output = document.getElementById("d1");
+    output.innerHTML = slider.value;
+    slider.oninput = function() {
+      output.innerHTML = this.value;
+    }
+    </script>
+
+
+
+<script>
+  //Add draggable short text
+  function addShortText() {
+    var mousePosition;
+    var offset = [0,0];
+    var isDown = false;
+    var textarea = document.createElement("input");
+    textarea.style.position = "absolute";
+    textarea.style.left = "350px";
+    textarea.style.top = "30px";
+    textarea.style.background = "white";
+    textarea.style.color = "blue";
+    textarea.style.border = "none";
+    textarea.style.background = "none";
+    textarea.style.zIndex = "2";
+    textarea.value="text";
+    document.body.appendChild(textarea);
+
+textarea.addEventListener('mousedown', function(e) {
+    isDown = true;
+    offset = [
+    textarea.offsetLeft - e.clientX,
+    textarea.offsetTop - e.clientY
+    ];
+}, true);
+
+document.addEventListener('mouseup', function() {
+    isDown = false;
+}, true);
+
+document.addEventListener('mousemove', function(event) {
+    event.preventDefault();
+    if (isDown) {
+        mousePosition = {
+            x : event.clientX,
+            y : event.clientY
+        };
+        textarea.style.left = (mousePosition.x + offset[0]) + 'px';
+        textarea.style.top  = (mousePosition.y + offset[1]) + 'px';
+    }
+}, true);
+
+}
+</script>
+
+<script>
+  //Add draggable & resizable text box for paragraph
+  var t=0;
+  function addParagraph() {
+    $('body').append('<div id="d'+t+'" class="drag"><textarea class="textbox">para</textarea></div>');
+    $( "textarea" ).attr('display', 'inline-block');
+    
+
+    $('.drag').draggable({
+            containment: $('.storyBoard')
+        });
+    $('.drag').resizable({
+            containment: $('.storyBoard')
+        });
+    $('.ui-resizable').removeClass( "ui-resizable" );
+    
+    t++;
+}
+
+  </script>
+  <script>
+  
+  
+  
+  </script>
+</html>
