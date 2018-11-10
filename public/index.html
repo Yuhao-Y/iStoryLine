@@ -103,9 +103,26 @@ $(document).ready(function(){
 
 </body>
 <script>
+  //-------------Wentao Liu------------------
+  var curr
+  d3.select("body").on("mouseover",function(data) {
+    d3.selectAll("rect").on("click", function(data) {
+        console.log(this.id)
+        curr = this
+      })
 
+  })
+  //-------------Wentao Liu------------------
 	function setColor(picker) {
 		document.getElementsByTagName('button')[0].style.color = '#' + picker.toString()
+    //-------------Wentao Liu------------------
+    d3.select(curr).attr("fill", '#' + picker.toString());
+    // d3.selectAll("rect").on("click", function(data) {
+  //       console.log(this.id);
+  //       //changeColor = document.getElementById("colorButton").style.backgroundColor
+  //       d3.select(this).attr("fill", '#' + picker.toString());
+  //    })
+    //--------------Wentao Liu------------------
 	}
 
 var slider = document.getElementById("myRange");
