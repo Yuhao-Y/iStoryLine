@@ -1,15 +1,17 @@
 var character_width = 8;
 var character_height = 15;
 var character_x = 100;
-var character_y = 30;
-var scenesLen = 20;
+var character_y = 40;
+var scenesLen = 25;
 var scenseVerLineHeight = character_y + 1;
 var largestScenseCount = 0;
+var svgContainer;
+
 d3.json('data.json', function(err, data){
 
 	var characters = data.characters;
 	var scenes = getScenesList(data.scenes);
-	var svgContainer = d3.select("#story").append("svg")
+	svgContainer = d3.select("#story").append("svg")
                                     	.attr("width", 20000)
                                     	.attr("height", 200);
 
@@ -19,8 +21,13 @@ d3.json('data.json', function(err, data){
     for(var i = 0; i < characters.length; i++) {
     	//lines
     	var points = new Array();
-
-    	lines.push(new Array());
+        var line = {};
+        line.points = new Array();
+        line.id = characters[i].id;
+        line.color = characters[i].color;
+        line.width = 2;
+        line.opacity = 1;
+    	lines.push(line);
 
     	//draw character
     	var character = svgContainer.append("rect")
@@ -31,7 +38,7 @@ d3.json('data.json', function(err, data){
                 .attr("name", characters[i].name)
                 .attr("id", characters[i].id)
                 .attr('fill', characters[i].color)
-                .attr('class', 'character');
+                .attr('class', characters[i].id);
 
         characterMap.set(characters[i].id, {x:character_width, y:i*character_y + character_height/2, color:characters[i].color, startTimestamp:characters[i].startTimestamp, endTimestamp:characters[i].endTimestamp});
         
@@ -106,9 +113,9 @@ d3.json('data.json', function(err, data){
             .attr("r",3)
             .attr("name", scenes[i].name)
             .attr('fill', characters[j].color)
-            .attr('class', 'character');
+            .attr('class', characters[j].id)
 
-        	lines[j].push(point);
+        	lines[j].points.push(point);
         	scenesPoint[i].push(point);
     	}
 
@@ -137,50 +144,78 @@ d3.json('data.json', function(err, data){
  		}     
     }
 
-    //draw the curve lines
-    lines.forEach(function(points){
+    drawCurveLines(lines);
 
-        var lineGenerator = d3.line()
-            .curve(d3.curveCardinal);
-
-        var line = new Array();
-
-        points.forEach(function(point) {
-            line.push([point.x,point.y]);
-        });
-        
-        var pathData = lineGenerator(line);
-        
-        svgContainer.append('path').attr('d', pathData);
-    });
-
-    drawScienseVerticalLine(lines, svgContainer);
+    drawScienseVerticalLine(lines);
 
     //add drag event
     d3.selectAll("circle").call(d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended));
 });
 
 
-
+//drag event
 function dragstarted() {
-  console.log("drag start");
-  d3.event.subject.active = true;
+    d3.event.subject.active = true;
 }
 
 function dragged(d) {
-    console.log("draging");
 
-  d3.select(this).attr("cy", d3.event.y);
+    d3.select(this).attr("cy", d3.event.y);
+
+    var characterID = d3.select(this).attr("class");
+
+    dragLine(characterID);
+}
+
+function dragLine(characterID) {
+
+    //get the attribute from the old line and remove the old line
+    var color;
+    var opacity;
+    var width;
+    d3.select(".storyBoard").select("svg").selectAll("path").selectAll(
+        function() {
+            if(d3.select(this).attr('class') == characterID) {
+                color = d3.select(this).style('stroke');
+                opacity = d3.select(this).style('stroke-opacity');
+                width = d3.select(this).style('stroke-width');
+                d3.select(this).remove();
+            }
+        }
+    )
+
+    //generate the new line with the coodinate from the circle
+    var line = {};
+    line.points = new Array();
+    line.id = characterID;
+    line.color = color;
+    line.opacity = opacity;
+    line.width = width;
+    d3.select(".storyBoard").select("svg").selectAll("circle").selectAll(
+        function() {
+            if(d3.select(this).attr('class') == characterID) {
+                var point = {};
+                point.x = d3.select(this).attr('cx');
+                point.y = d3.select(this).attr('cy');
+                line.points.push(point);
+            }
+        }
+    )
+
+    drawCurveLine(line);
 }
 
 function dragended() {
-    console.log("drag end");
-  d3.event.subject.active = false;
+    d3.event.subject.active = false;
 }
 
-function drawScienseVerticalLine(data, svgContainer) {
+function renderCurveLine(characterID) {
 
-    for(var i = 1; i < largestScenseCount; i++) {
+}
+
+function drawScienseVerticalLine(data) {
+
+    for(var i = 1; i <= largestScenseCount; i++) {
         
         var line = d3.svg.line()
                  .x(function(d) { return d['x']})
@@ -188,19 +223,8 @@ function drawScienseVerticalLine(data, svgContainer) {
         var point = new Array();
         point.push({x:i*scenesLen + character_x, y:0});
         point.push({x:i*scenesLen + character_x, y:scenseVerLineHeight * data.length});
-        console.log(point);
         svgContainer.append('path').attr('d', line(point)).style('stroke', '#6E7B8B').style("stroke-opacity", 0.2).style('stroke-width', 1).style('fill','none');
     }
-    // data[maxLenIndex].forEach(function(pointData) {
-    //     var line = d3.svg.line()
-    //              .x(function(d) { return d['x']})
-    //              .y(function(d) { return d['y']});
-    //     var point = new Array();
-    //     point.push({x:pointData.x, y:0});
-    //     point.push({x:pointData.x, y:scenseVerLineHeight * largestScenseCount});
-    //     console.log(point);
-    //     svgContainer.append('path').attr('d', line(point)).style('stroke', '#6E7B8B').style("stroke-opacity", 0.2).style('stroke-width', 1).style('fill','none');
-    // });
 }
 
 function getScenesList(data) {
@@ -224,4 +248,26 @@ function getScenesList(data) {
 	});
 
 	return scenes;
+}
+
+function drawCurveLines(lines) {
+    //draw the curve lines
+    lines.forEach(function(line){
+        drawCurveLine(line);
+    });
+}
+
+function drawCurveLine(line) {
+    var lineGenerator = d3.line()
+        .curve(d3.curveCardinal);
+
+    var path = new Array();
+
+    line.points.forEach(function(point) {
+        path.push([point.x,point.y]);
+    });
+        
+    var pathData = lineGenerator(path);
+        
+    svgContainer.append('path').attr('d', pathData).attr('class', line.id).style('stroke', line.color).style("stroke-opacity", line.opacity).style('stroke-width', line.width)
 }
