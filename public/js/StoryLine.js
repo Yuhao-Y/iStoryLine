@@ -1,5 +1,3 @@
-//document.write("<script language=javascript src='/js/drag.js'><\/script>")
-//document.write("<script language=javascript src='/js/shift.js'><\/script>")
 
 var character_width = 8;
 var character_height = 15;
@@ -291,7 +289,6 @@ function dragended() {
     d3.event.subject.active = false;
 }
 
-
 //////////////////shift///////////////
 function shiftstarted() {
     d3.event.subject.active = true;
@@ -299,14 +296,44 @@ function shiftstarted() {
 
 function shiftted() {
     var characterID = d3.select(this).attr("class");
-    var moveLen = d3.event.y - d3.select(this).attr("y");
 
-    d3.select(this).attr("y", d3.event.y);
+    shiftByCharacterID(characterID, d3.event.y, 0)
+}
+
+function shiftended() {
+    d3.event.subject.active = false;
+    reArrangeCharacter();
+}
+
+//if duration > 0 , the shift action will have animation
+function shiftByCharacterID(characterID, newY, duration) {
+    var moveLen = 0;
+
+    d3.select(".storyBoard").select("svg").selectAll("rect").selectAll(
+        function() {
+            if(d3.select(this).attr('class') == characterID) {
+                moveLen = newY - d3.select(this).attr("y");
+                if (duration > 0) {
+                    d3.select(this).transition().attr("y", newY).duration(duration);
+                } else {
+                   d3.select(this).attr("y", newY); 
+                }
+                
+                
+            }
+        }
+    )
 
     d3.select(".storyBoard").select("svg").selectAll("circle").selectAll(
         function() {
             if(d3.select(this).attr('class') == characterID) {
-                d3.select(this).attr("cy", d3.select(this).attr("cy")*1 + moveLen);
+                if (duration > 0) {
+                    d3.select(this).transition().tween('text', function(){ return function(){removeOldLineAndGenerateNewLine(characterID)}}).attr("cy", d3.select(this).attr("cy")*1 + moveLen).duration(duration);
+                } else {
+                    d3.select(this).attr("cy", d3.select(this).attr("cy")*1 + moveLen);
+                    removeOldLineAndGenerateNewLine(characterID)
+                }
+                
             }
         }
     )
@@ -314,14 +341,32 @@ function shiftted() {
     d3.select(".storyBoard").select("svg").selectAll("text").selectAll(
         function() {
             if(d3.select(this).attr('class') == characterID) {
-                d3.select(this).attr("y", d3.select(this).attr("y")*1 + moveLen);
+                if (duration > 0) {
+                    d3.select(this).transition().attr("y", d3.select(this).attr("y")*1 + moveLen).duration(duration);
+                } else {
+                    d3.select(this).attr("y", d3.select(this).attr("y")*1 + moveLen);
+                }
             }
         }
     )
 
-    removeOldLineAndGenerateNewLine(characterID)
+    
 }
 
-function shiftended() {
-    d3.event.subject.active = false;
+function sortByCharacterX(a, b) {
+        return a.attr('y') - b.attr('y')
+    }
+
+function reArrangeCharacter() {
+    var characterArr = new Array();
+
+    d3.select('.storyBoard').selectAll('rect').selectAll(function(){
+        characterArr.push(d3.select(this));
+    });
+
+    
+    characterArr.sort(sortByCharacterX);
+    for(var i = 0; i < characterArr.length; i++) {
+        shiftByCharacterID(characterArr[i].attr('class'), i*character_y, 1000)
+    }
 }
