@@ -185,6 +185,12 @@ function dragLine(characterID) {
     )
 
     //generate the new line with the coodinate from the circle
+    var line = generateLineByCharacterID(characterID, color, opacity, width)
+
+    drawCurveLine(line);
+}
+
+function generateLineByCharacterID(characterID, color, opacity, width) {
     var line = {};
     line.points = new Array();
     line.id = characterID;
@@ -202,7 +208,7 @@ function dragLine(characterID) {
         }
     )
 
-    drawCurveLine(line);
+    return line;
 }
 
 function dragended() {
