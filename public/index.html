@@ -19,6 +19,7 @@
   <script src="https://d3js.org/d3-selection.v1.min.js"></script>
   <script src="https://d3js.org/d3-drag.v1.min.js"></script>
   <script src="js/StoryLine.js"></script>
+  <script src="js/WL.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
 </head>
@@ -103,9 +104,14 @@ $(document).ready(function(){
 
 </body>
 <script>
-
+  //-------------Wentao Liu------------------
+  mouseEvent();
+  //-------------Wentao Liu------------------
 	function setColor(picker) {
 		document.getElementsByTagName('button')[0].style.color = '#' + picker.toString()
+    //-------------Wentao Liu------------------
+    changeColor(picker);
+    //--------------Wentao Liu------------------
 	}
 
 var slider = document.getElementById("myRange");
