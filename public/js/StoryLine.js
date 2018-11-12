@@ -1,3 +1,6 @@
+//document.write("<script language=javascript src='/js/drag.js'><\/script>")
+//document.write("<script language=javascript src='/js/shift.js'><\/script>")
+
 var character_width = 8;
 var character_height = 15;
 var character_x = 100;
@@ -53,13 +56,15 @@ d3.json('data.json', function(err, data){
             .attr('x', character_x - 2)
             .attr('y', i*character_y + character_height)
             .attr("font-size",10)
-            .text(characters[i].name); 
-        text.append('text').attr('class', 'color').attr('text-anchor', 'end')
-            .attr('x', character_x - 2)
-            .attr('y', i*character_y + character_height)
-            .attr("font-size",10)
-            .text(characters[i].name); 
+            .attr('class', characters[i].id)
+            .text(characters[i].name);
 
+        // text.append('text').attr('class', 'color').attr('text-anchor', 'end')
+        //     .attr('x', character_x - 2)
+        //     .attr('y', i*character_y + character_height)
+        //     .attr("font-size",10)
+        //     .text(characters[i].name); 
+      
     }   
 
     var scenesPoint = new Array();
@@ -149,46 +154,12 @@ d3.json('data.json', function(err, data){
     drawScienseVerticalLine(lines);
 
     //add drag event
-    d3.selectAll("circle").call(d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended));
+    d3.select(".storyBoard").selectAll("circle").call(d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended));
+    d3.select(".storyBoard").selectAll("rect").call(d3.drag().on("start", shiftstarted).on("drag", shiftted).on("end",shiftended));
 });
 
 
-//drag event
-function dragstarted() {
-    d3.event.subject.active = true;
-}
 
-function dragged(d) {
-
-    d3.select(this).attr("cy", d3.event.y);
-
-    var characterID = d3.select(this).attr("class");
-
-    dragLine(characterID);
-}
-
-function dragLine(characterID) {
-
-    //get the attribute from the old line and remove the old line
-    var color;
-    var opacity;
-    var width;
-    d3.select(".storyBoard").select("svg").selectAll("path").selectAll(
-        function() {
-            if(d3.select(this).attr('class') == characterID) {
-                color = d3.select(this).style('stroke');
-                opacity = d3.select(this).style('stroke-opacity');
-                width = d3.select(this).style('stroke-width');
-                d3.select(this).remove();
-            }
-        }
-    )
-
-    //generate the new line with the coodinate from the circle
-    var line = generateLineByCharacterID(characterID, color, opacity, width)
-
-    drawCurveLine(line);
-}
 
 function generateLineByCharacterID(characterID, color, opacity, width) {
     var line = {};
@@ -209,10 +180,6 @@ function generateLineByCharacterID(characterID, color, opacity, width) {
     )
 
     return line;
-}
-
-function dragended() {
-    d3.event.subject.active = false;
 }
 
 function renderCurveLine(characterID) {
@@ -256,6 +223,10 @@ function getScenesList(data) {
 	return scenes;
 }
 
+function drawRect(character) {
+
+}
+
 function drawCurveLines(lines) {
     //draw the curve lines
     lines.forEach(function(line){
@@ -276,4 +247,81 @@ function drawCurveLine(line) {
     var pathData = lineGenerator(path);
         
     svgContainer.append('path').attr('d', pathData).attr('class', line.id).style('stroke', line.color).style("stroke-opacity", line.opacity).style('stroke-width', line.width)
+}
+
+function removeOldLineAndGenerateNewLine(characterID) {
+
+    //get the attribute from the old line and remove the old line
+    var color;
+    var opacity;
+    var width;
+    d3.select(".storyBoard").select("svg").selectAll("path").selectAll(
+        function() {
+            if(d3.select(this).attr('class') == characterID) {
+                color = d3.select(this).style('stroke');
+                opacity = d3.select(this).style('stroke-opacity');
+                width = d3.select(this).style('stroke-width');
+                d3.select(this).remove();
+            }
+        }
+    )
+
+    //generate the new line with the coodinate from the circle
+    var line = generateLineByCharacterID(characterID, color, opacity, width)
+
+    drawCurveLine(line);
+}
+
+///////////////////drag///////////////
+//drag event
+function dragstarted() {
+    d3.event.subject.active = true;
+}
+
+function dragged(d) {
+
+    d3.select(this).attr("cy", d3.event.y);
+
+    var characterID = d3.select(this).attr("class");
+
+    removeOldLineAndGenerateNewLine(characterID);
+}
+
+function dragended() {
+    d3.event.subject.active = false;
+}
+
+
+//////////////////shift///////////////
+function shiftstarted() {
+    d3.event.subject.active = true;
+}
+
+function shiftted() {
+    var characterID = d3.select(this).attr("class");
+    var moveLen = d3.event.y - d3.select(this).attr("y");
+
+    d3.select(this).attr("y", d3.event.y);
+
+    d3.select(".storyBoard").select("svg").selectAll("circle").selectAll(
+        function() {
+            if(d3.select(this).attr('class') == characterID) {
+                d3.select(this).attr("cy", d3.select(this).attr("cy")*1 + moveLen);
+            }
+        }
+    )
+
+    d3.select(".storyBoard").select("svg").selectAll("text").selectAll(
+        function() {
+            if(d3.select(this).attr('class') == characterID) {
+                d3.select(this).attr("y", d3.select(this).attr("y")*1 + moveLen);
+            }
+        }
+    )
+
+    removeOldLineAndGenerateNewLine(characterID)
+}
+
+function shiftended() {
+    d3.event.subject.active = false;
 }
