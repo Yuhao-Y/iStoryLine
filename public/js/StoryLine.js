@@ -1,22 +1,25 @@
 
 var character_width = 8;
-var character_height = 15;
+var character_height = 30;
 var character_x = 100;
-var character_y = 40;
-var scenesLen = 25;
+var character_y = 50;
+var scenesLen = 35;
 var scenseVerLineHeight = character_y + 1;
+var circle_distance_group = 15;
+var duration_time = 1000;
 var largestScenseCount = 0;
 var svgContainer;
+var scenes;
+var characterMap = new Map();
 
 d3.json('data.json', function(err, data){
 
 	var characters = data.characters;
-	var scenes = getScenesList(data.scenes);
+	scenes = getScenesList(data.scenes);
 	svgContainer = d3.select("#story").append("svg")
                                     	.attr("width", 20000)
-                                    	.attr("height", 200);
-
-    var characterMap = new Map();
+                                    	.attr("height", 800);
+    
     var lines = new Array();
 
     for(var i = 0; i < characters.length; i++) {
@@ -68,32 +71,7 @@ d3.json('data.json', function(err, data){
     var scenesPoint = new Array();
 
     for(var i = 0; i < scenes.length; i++) {
-        largestScenseCount = Math.max(largestScenseCount, scenes[i].endTimestamp);
-
-    	//move the character in one group more close
-    	if(scenes[i].hasOwnProperty("groups")) {
-    			var groups = scenes[i].groups;
-
-    			groups.forEach(function(group){
-    				
-    				var groupCharacter = group.character;
-
-    				//the mid character in the group would not move
-    				var mid = parseInt(groupCharacter.length/2);
-
-    				for(var k = 0; k < groupCharacter.length; k++) {
-    					if(k < mid) { //the upper character move down
-    						var character = characterMap.get(groupCharacter[k]);
-    						character.y = character.y + character_height
-    						characterMap.set(groupCharacter[k], character);
-    					} else if( k > mid) { //the under character move up
-    						var character = characterMap.get(groupCharacter[k]);
-    						character.y = character.y - character_height
-    						characterMap.set(groupCharacter[k], character);
-    					}
-    				}
-    			});
- 		}     
+        largestScenseCount = Math.max(largestScenseCount, scenes[i].endTimestamp);   
 
     	scenesPoint.push(new Array());
 
@@ -117,35 +95,14 @@ d3.json('data.json', function(err, data){
             .attr("name", scenes[i].name)
             .attr('fill', characters[j].color)
             .attr('class', characters[j].id)
+            .attr('scenesNumber', scenes[i].scenesNumber)
 
         	lines[j].points.push(point);
         	scenesPoint[i].push(point);
-    	}
-
-    	//restore the coordinate of the character in the group
-    	if(scenes[i].hasOwnProperty("groups")) {
-    			var groups = scenes[i].groups;
-
-    			groups.forEach(function(group){
-    				
-    				var groupCharacter = group.character;
-    				var mid = parseInt(groupCharacter.length/2);
-
-    				for(var k = 0; k < groupCharacter.length; k++) {
-    					if(k < mid) {
-    						var character = characterMap.get(groupCharacter[k]);
-    						character.y = character.y - character_height
-    						characterMap.set(groupCharacter[k], character);
-    					} else if( k > mid) {
-    						
-    						var character = characterMap.get(groupCharacter[k]);
-    						character.y = character.y + character_height
-    						characterMap.set(groupCharacter[k], character);
-    					}
-    				}
-    			});
- 		}     
+    	}    
     }
+
+    generateGroup(duration_time);
 
     drawCurveLines(lines);
 
@@ -157,7 +114,56 @@ d3.json('data.json', function(err, data){
 });
 
 
+function generateGroup(duration) {
 
+    for(var i = 0; i < scenes.length; i++) {
+        if(scenes[i].hasOwnProperty("groups")) {
+
+            var groups = scenes[i].groups;
+            
+            groups.forEach(function(group){
+                var sortedCharacterArr = new Array();
+
+                d3.select('.storyBoard').selectAll('rect').selectAll(function(){
+                    var selectedCharacter = d3.select(this)
+                    group.character.forEach(function(character){
+                        if(selectedCharacter.attr('class') == character) {
+                            sortedCharacterArr.push(selectedCharacter);
+                        }
+                    });
+                });
+
+                sortedCharacterArr.sort(sortByCharacterX);
+                var startY = characterMap.get(sortedCharacterArr[0].attr('class')).y
+
+                d3.select('.storyBoard').selectAll('circle').selectAll(function(){
+                    if(d3.select(this).attr('scenesNumber') == scenes[i].scenesNumber) {
+                        if(d3.select(this).attr('class') == sortedCharacterArr[0].attr('class')) {
+                            startY = d3.select(this).attr('cy')*1
+                        } 
+                    }
+                })
+
+                d3.select('.storyBoard').selectAll('circle').selectAll(function(){
+                    if(d3.select(this).attr('scenesNumber') == scenes[i].scenesNumber) {
+                        for(var j = 0; j < sortedCharacterArr.length; j++) {
+                            if(d3.select(this).attr('class') == sortedCharacterArr[j].attr('class')) {
+                                var characterID = sortedCharacterArr[j].attr('class')
+                                if(duration > 0) {
+                                    d3.select(this).transition().tween('rearrange', function(){ return function(){removeOldLineAndGenerateNewLine(characterID)}}).attr('cy', startY + j*circle_distance_group).duration(duration)
+                                } else {
+                                    d3.select(this).attr('cy', startY + j*circle_distance_group)
+                                    removeOldLineAndGenerateNewLine(characterID)
+                                }
+                                
+                            }
+                        }
+                    }
+                })
+            })
+        }
+    }
+}
 
 function generateLineByCharacterID(characterID, color, opacity, width) {
     var line = {};
@@ -207,6 +213,7 @@ function getScenesList(data) {
 
 			var tmp = {};
 			tmp.name = d.name;
+            tmp.scenesNumber = i;
 			if(d.hasOwnProperty("groups")){
 				tmp.groups = d.groups;
 			}
@@ -283,6 +290,9 @@ function dragged(d) {
     var characterID = d3.select(this).attr("class");
 
     removeOldLineAndGenerateNewLine(characterID);
+
+    //TO-DO this cause the non-first circle in a group cannot drag
+    generateGroup(0);
 }
 
 function dragended() {
@@ -303,6 +313,7 @@ function shiftted() {
 function shiftended() {
     d3.event.subject.active = false;
     reArrangeCharacter();
+    generateGroup(duration_time);
 }
 
 //if duration > 0 , the shift action will have animation
@@ -353,11 +364,18 @@ function shiftByCharacterID(characterID, newY, duration) {
     
 }
 
-function sortByCharacterX(a, b) {
-        return a.attr('y') - b.attr('y')
-    }
-
 function reArrangeCharacter() {
+    var characterArr = getSortedCharacter()
+
+    for(var i = 0; i < characterArr.length; i++) {
+        shiftByCharacterID(characterArr[i].attr('class'), i*character_y, duration_time)
+
+        //update the y value in character map since this value would be used when comput the group
+        characterMap.get(characterArr[i].attr('class')).y = i*character_y + character_height/2
+    }
+}
+
+function getSortedCharacter() {
     var characterArr = new Array();
 
     d3.select('.storyBoard').selectAll('rect').selectAll(function(){
@@ -366,7 +384,10 @@ function reArrangeCharacter() {
 
     
     characterArr.sort(sortByCharacterX);
-    for(var i = 0; i < characterArr.length; i++) {
-        shiftByCharacterID(characterArr[i].attr('class'), i*character_y, 1000)
-    }
+
+    return characterArr
+}
+
+function sortByCharacterX(a, b) {
+        return a.attr('y') - b.attr('y')
 }
