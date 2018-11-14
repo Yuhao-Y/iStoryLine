@@ -55,10 +55,10 @@ $(document).ready(function(){
             <input type="button" id="colorButton" class="jscolor {valueElement:null,value:'000000', onFineChange:'setColor(this)'}">
           </p>
           <p>Width: 
-              <input type="range" min="1" max="100" value="50" class="slider" id="lineWidth">
+              <input type="range" min="1" max="10" value="2" class="slider" id="lineWidth">
           </p>     
           <p>Opacity: 
-                  <input type="range" min="1" max="100" value="50" class="slider" id="lineOpacity">
+                  <input type="range" min="0" max="1" value="1" class="slider" id="lineOpacity">
           </p>   
 
         
@@ -106,6 +106,10 @@ $(document).ready(function(){
 </body>
 <script>
   //-------------Wentao Liu------------------
+  var slider1 = document.getElementById("lineWidth");
+  var lineWidth = slider1.value;
+  var slider2 = document.getElementById("lineOpacity");
+  var lineOpacity = slider2.value;
   mouseEvent();
   //-------------Wentao Liu------------------
 	function setColor(picker) {
@@ -114,13 +118,7 @@ $(document).ready(function(){
     changeColor(picker);
     //--------------Wentao Liu------------------
 	}
-
-var slider = document.getElementById("myRange");
-    var output = document.getElementById("d1");
-    output.innerHTML = slider.value;
-    slider.oninput = function() {
-      output.innerHTML = this.value;
-    }
+    //--------------Wentao Liu------------------
     </script>
 
 
