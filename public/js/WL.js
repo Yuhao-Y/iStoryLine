@@ -13,6 +13,16 @@ function mouseEvent(){
         console.log(this)
         curr = d3.select(this).attr("class")
       })
+    d3.select(".panelBar").selectAll("#lineWidth").on("click", function(data) {
+        temp1 = document.getElementById("lineWidth")
+        lineWidth = temp1.value
+        changeWidth(lineWidth);
+      })
+    d3.select(".panelBar").selectAll("#lineOpacity").on("click", function(data) {
+        temp2 = document.getElementById("lineOpacity")
+        lineOpacity = temp2.value
+        changeOpacity(lineOpacity);
+      })
 
   })
 }
@@ -33,4 +43,20 @@ function changeColor(picker) {
         d3.select(this).style("stroke", '#' + picker.toString())
       }
     })
+}
+
+function changeWidth(lineWidth) {
+  d3.selectAll("path").selectAll(function(){
+    if(d3.select(this).attr("class") == curr){
+      d3.select(this).style("stroke-width", parseInt(lineWidth))
+    }
+  })
+}
+
+function changeOpacity(lineOpacity) {
+  d3.selectAll("path").selectAll(function(){
+    if(d3.select(this).attr("class") == curr){
+      d3.select(this).style("stroke-opacity", parseInt(lineOpacity))
+    }
+  })
 }
