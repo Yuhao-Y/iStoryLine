@@ -62,7 +62,7 @@ h1 {
     height: 100%;
     left: 93px;
     top: 0px;
-    opacity: 0.7;
+    opacity: 1;
     padding: 15px;
     border-right: 1px solid rgb(216, 188, 208);
 }
@@ -165,19 +165,6 @@ box-align:center;
 }
 
 
-.storyBoard {
-    background-color: #ffffff;
-    position: fixed;
-    left: 130px;
-    right: 70px;
-    
-    height: 96%;
-    top: 2%;
-    z-index: -1;
-}
-
-
-
 .slider {
     -webkit-appearance: none;
     width: 100%;
@@ -205,31 +192,127 @@ box-align:center;
     box-shadow: -100vw 0 0 100vw var(--main-active-color);
     
 }
+.eventButton {
+    background-color: white;
+    color: rgb(129, 129, 129);
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    border:1px solid rgb(211, 211, 211);
+    border-radius: 5px;
+    margin:2px;
 
+}
+.eventButton:hover {
+    color:black;
+}
+.elementList {
+    background-color: #f7bd51;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    width:95%;
+    border:1px solid #c0ac53;
+    border-radius: 5px;
+}
+.elementList:hover{background-color: #b9b26f;}
+.elementNotActive{background-color: #b9b26f;}
+.textButton {
+    background-color: #bfdaa5;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    width:95%;
+    border:1px solid #73946a;
+    border-radius: 5px;
+}
+.textButton:hover{background-color: #73946a;}
 .textbox {
-    
     width: 100%;
     height: 100%;
-    color: blue;
+    color: black;
     border: none;
     resize:none;
+    background: none;
 }
-
-.drag {
-    
-    position: absolute;
+.paraDrag {
+    width: 150px;
+    height: 100px; 
+}
+.inputDrag {
+    width: 120px;
+    height: 18px;  
+}
+.eventDrag {
+    width: 35px;
+    height: 30px;
+}
+.draggable{
     left:350px;
     top:30px;
-    width: 150px;
-    height: 100px;
+    position: absolute;
     background: none;
     padding:5px;
-
+    
     border: none;
 }
-.drag:hover{background: gray;cursor: move;}
+.draggable:hover{border:1px solid #e7bcce;cursor: move;}
+
+
+/*left panel bar trash*/
+.panelBar .trashButton {
+	-moz-box-shadow:inset 0px 0px 0px 0px #edf2f4;
+	-webkit-box-shadow:inset 0px 0px 0px 0px #edf2f4;
+	box-shadow:inset 0px 0px 0px 0px #edf2f4;
+	background-color: none;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	display:inline-block;
+	color:#ffffff;
+	font-family:Trebuchet MS;
+	font-size:.5rem;
+	font-weight:bold;
+	padding:10px;
+	text-decoration:none;
+    text-shadow:0px 1px 0px #307bc7;
+    text-align: center;
+    margin: 5px;
+    width:4em;
+    height:3.5em;
+    position: absolute;
+    bottom: 5px;
+}
+.dropArea {background-color:#e7bcce;}
+.dropAreaHover { background-color: #db8aac; }
 
 /*story board*/
+
+.storyBoard {
+    background-color: #ffffff;
+    position: fixed;
+    left: 130px;
+    right: 70px;
+    padding-top: 50px;
+    height: 96%;
+    top: 2%;
+    z-index: -1;
+}
+
 .storyBoard path { 
     stroke: steelblue;
     stroke-width: 2;
