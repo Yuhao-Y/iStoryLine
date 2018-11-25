@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CSE578</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/base/jquery-ui.css">
+
+
+  <script defer src="js/icon/solid.js"></script>
+  <script defer src="js/icon/fontawesome.js"></script>
+  <script src="js/jquery-3.3.1.js"></script>
+  <script src="jquery-ui/jquery-ui.js"></script>
+  <script src="js/jscolor.js"></script>
+  <script src="http://use.edgefonts.net/source-sans-pro:n2:default.js" type="text/javascript"></script>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="https://cdn.rawgit.com/abcnews/d3-layout-narrative/1.0.0/narrative.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js"></script>
+  <script src="https://d3js.org/d3-dispatch.v1.min.js"></script>
+  <script src="https://d3js.org/d3-selection.v1.min.js"></script>
+  <script src="https://d3js.org/d3-drag.v1.min.js"></script>
+  <script src="https://d3js.org/d3-transition.v1.min.js"></script>
+  <script src="js/StoryLine.js"></script>
+  <script src="js/WL.js"></script>
+  <script src="js/textbox.js"></script>
+  <script type="text/javascript" src="data.json"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+</head>
+<script>
+//panelBarSpan toggle
+$(document).ready(function(){
+  $('.panelBar a').click(function(e) {
+    e.preventDefault();
+    var $this = $("#"+this.id+".panelBarSpan");
+    $(".panelBar .panelBarSpan").not($this).hide();
+    $this.toggle("fast");
+    $("#"+this.id+".button").toggleClass('buttonActive');
+    $('a').not(document.getElementById(this.id)).removeClass('buttonActive');
+  });
+});
+
+
+  
+
+</script>
+
+<body>
+    <div class="panelBar">
+        <a id="element" class="button"><i class="fas fa-th-list fa-4x" style="height: 75%"></i><br>Element</a>
+        <div id="element" class="panelBarSpan elementPanel">
+          
+          
+        </div>
+        <a id="style" class="button"><i class="fas fa-magic fa-4x" style="height: 75%"></i><br>Style</a>
+        <div id="style" class="panelBarSpan">
+          <p>Color: <br><br>
+            <input type="button" id="colorButton" class="jscolor {valueElement:null,value:'000000', onFineChange:'setColor(this)'}">
+          </p>
+          <p>Width: <br><br>
+            <input type="range" min="1" max="10" value="2" class="slider" id="lineWidth">
+          </p>     
+          <p>Opacity: <br><br>
+            <input type="range" min="1" max="10" value="10" class="slider" id="lineOpacity">
+          </p>
+
+        
+        
+        
+        
+        </div>
+
+
+        <a id="text" class="button"><i class="fas fa-file-alt fa-4x" style="height: 75%"></i><br>Text</a>
+        <div id="text" class="panelBarSpan">
+         <p>Textarea:</p>
+         <button class="textButton" onclick="addShortText()">Add Short Text</button>
+         <br>Click on text to edit content and/or drag text box.<br><br>
+         <button class="textButton" onclick="addParagraph()">Add Paragraph</button>
+         <br>Click on text to edit content. Drag text box around and/or resize. <br><br>
+        </div>
+        <a id="event" class="button"><i class="fas fa-haykal fa-4x" style="height: 75%"></i><br>Event</a>
+        <div id="event" class="panelBarSpan">
+
+        <button class="eventButton" onclick="getButton('fas fa-haykal')"><i class="fas fa-haykal fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-bomb')"><i class="fas fa-bomb fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-cannabis')"><i class="fas fa-cannabis fa-4x"></i></button><br>
+        <button class="eventButton" onclick="getButton('fas fa-flag')"><i class="fas fa-flag fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-crown')"><i class="fas fa-crown fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-gem')"><i class="fas fa-gem fa-4x"></i></button><br>
+        <button class="eventButton" onclick="getButton('fas fa-award')"><i class="fas fa-award fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-bed')"><i class="fas fa-bed fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-bell')"><i class="fas fa-bell fa-4x"></i></button><br>
+        <button class="eventButton" onclick="getButton('fas fa-angry')"><i class="fas fa-angry fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-skull')"><i class="fas fa-skull fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-meh-rolling-eyes')"><i class="fas fa-meh-rolling-eyes fa-4x"></i></button><br>
+        <button class="eventButton" onclick="getButton('fas fa-bicycle')"><i class="fas fa-bicycle fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-car-side')"><i class="fas fa-car-side fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-plane')"><i class="fas fa-plane fa-4x"></i></button><br>
+        <button class="eventButton" onclick="getButton('fas fa-cat')"><i class="fas fa-cat fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-dragon')"><i class="fas fa-dragon fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-horse')"><i class="fas fa-horse fa-4x"></i></button><br>
+        <button class="eventButton" onclick="getButton('fas fa-snowflake')"><i class="fas fa-snowflake fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-sun')"><i class="fas fa-sun fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-wind')"><i class="fas fa-wind fa-4x"></i></button><br>
+        <button class="eventButton" onclick="getButton('fas fa-ghost')"><i class="fas fa-ghost fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-robot')"><i class="fas fa-robot fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-poo')"><i class="fas fa-poo fa-4x"></i></button><br>
+        <button class="eventButton" onclick="getButton('fas fa-hat-wizard')"><i class="fas fa-hat-wizard fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-shoe-prints')"><i class="fas fa-shoe-prints fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-drum')"><i class="fas fa-drum fa-4x"></i></button>
+  
+
+        </div>
+        <a id="trash" class="trashButton" ><i class="fas fa-trash-alt fa-4x"></i></a>
+    </div>
+    <div class="storyBoard">
+        <div id="story"> 
+        </div> 
+    </div>
+
+    <div class="rightBar" >
+        <a id="addButton"><i class="fas fa-plus"></i></a>
+        <a class="interactButton"><i class="fas fa-save"></i></a>
+        <a class="interactButton"><i class="fas fa-arrows-alt"></i></a>
+        <a class="interactButton"><i class="fas fa-expand"></i></a>
+        <a class="interactButton"><i class="fas fa-hand-paper"></i></a>
+        <a class="interactButton"><i class="fas fa-pen-nib"></i></a>
+        <a class="interactButton"><i class="fas fa-edit"></i></a>
+        <a class="interactButton"><i class="fas fa-undo-alt"></i></a>
+        <a class="interactButton"><i class="fas fa-random"></i></a>
+        <a class="interactButton"><i class="fas fa-i-cursor fa-rotate-90"></i></a>
+        <a class="interactButton"><i class="fas fa-code-branch fa-rotate-90"></i></a>
+    </div>
+
+
+</body>
+<script>
+  //-------------Wentao Liu------------------
+  var slider1 = document.getElementById("lineWidth");
+  var lineWidth = slider1.value;
+  var slider2 = document.getElementById("lineOpacity");
+  var lineOpacity = slider2.value;
+  mouseEvent();
+  //-------------Wentao Liu------------------
+	function setColor(picker) {
+		document.getElementById('colorButton').style.color = '#' + picker.toString();
+    //-------------Wentao Liu------------------
+    changeColor(picker);
+    //--------------Wentao Liu------------------
+	}
+    //--------------Wentao Liu------------------
+    </script>
+<script>
+
+function getButton(buttonName)
+{
+    console.log(buttonName);
+    $('body').append('<div class="draggable eventDrag"><i class="'+ buttonName+' fa-3x"></i></div>');
+   $('.draggable').draggable({
+         connectWith: '#trash'
+       });
+
+   //selected = $('#d'+t);
+   $('.ui-resizable').removeClass( "ui-resizable" );
+}
+
+</script>
+
+<script>
+
+
+listElements();
+function listElements(){
+
+$.getJSON("data.json", function (data) {
+    $.each(data.characters, function (index, value) {
+       console.log(value.name);
+        $('.elementPanel').append('<button id="'+value.id+'" class="elementList">'+value.name+'</button>');
+
+    });
+});
+}
+$(document).ready(function(){
+  $('.elementPanel button').click(function(e) {
+    e.preventDefault();
+    $("#"+this.id+".elementList").toggleClass('elementNotActive');
+    curr=this.id;
+    if($("#"+this.id).hasClass('elementNotActive')){
+        elementState(this.id,0);
+        //changeOpacityCircle(0);
+    }
+    else{
+        elementState(this.id,1);
+        //changeOpacityCircle(10);
+        }
+
+  });
+});
+
+
+</script>
+
+<script>
+   //Delete area
+   $('.draggable').draggable({
+           connectWith: '#trash'
+       });
+
+   $("#trash").droppable({
+   accept: '.draggable',
+   activeClass: 'dropArea',
+   hoverClass: 'dropAreaHover',
+   drop: function(event, ui) {
+       ui.draggable.remove();
+   }
+});
+</script>
+  
+
+</html>
