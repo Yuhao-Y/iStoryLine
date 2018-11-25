@@ -326,34 +326,3 @@ box-align:center;
     stroke-width: 1;
     shape-rendering: crispEdges;
 }
-
-/*timeline*/
-.timeline {
-    stroke: #000;
-    stroke-opacity: 0.3;
-    stroke-width: 10px;
- }
-
-.timeline-inset {
-    stroke: #ddd;
-    stroke-width: 8px;
-}
-
-.timeline,
-.timeline-inset {
-    stroke-linecap: round;
-}
-
-.timeline-overlay {
-      pointer-events: stroke;
-      stroke-width: 50px;
-      stroke: transparent;
-      cursor: crosshair;
-}
-
-.handle {
-    fill: #fff;
-    stroke: #000;
-    stroke-opacity: 0.5;
-    stroke-width: 1.25px;
-}

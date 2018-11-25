@@ -1,0 +1,102 @@
+{
+  "characters": [
+      {
+        "id": "R2D",
+        "name": "R2-D2",
+        "affiliation": "light",
+	"profile":"",
+	"color":"red",
+	"gender":"",
+	"startTimestamp":1,
+	"endTimestamp":20
+      },
+       {
+        "id": "DV1",
+        "name": "Darth Vader",
+	"profile":"",
+	"color":"black",
+	"gender":"",
+	"startTimestamp":1,
+	"endTimestamp":15
+      },
+      {
+        "id": "ST1",
+        "name": "Stormtroopers",
+	"profile":"",
+	"color":"blue",
+	"gender":"",
+	"startTimestamp":1,
+	"endTimestamp":25
+      },
+      {
+        "id": "TEST1",
+        "name": "TEST1",
+	"profile":"",
+	"color":"blue",
+	"gender":"",
+	"startTimestamp":5,
+	"endTimestamp":30
+      },
+      {
+        "id": "TEST2",
+        "name": "TEST2",
+	"profile":"",
+	"color":"blue",
+	"gender":"",
+	"startTimestamp":10,
+	"endTimestamp":20
+      }
+  ],
+  "scenes": [
+	{
+	 "name":"Scene0",
+	 "startTimestamp":1,
+	 "endTimestamp":3
+	},
+	{
+	 "name":"Scene1",
+	 "groups":[
+		{
+		 "character":["R2D", "DV1","ST1"],
+		 "type":"default"
+		}
+	 ],
+	 "startTimestamp":4,
+	 "endTimestamp":5
+	},
+	{
+	 "name":"Scene2",
+	 "startTimestamp":6,
+	 "endTimestamp":8
+	},
+	{
+	 "name":"Scene4",
+	 "groups":[
+		{
+		 "character":["R2D","DV1","ST1"],
+		 "type":"default"
+		}
+	 ],
+	 "startTimestamp":9,
+	 "endTimestamp":9
+	},
+	{
+	 "name":"Scene5",
+	 "startTimestamp":15,
+	 "endTimestamp":30
+	},
+	{
+	 "name":"Scene6",
+	 "groups":[
+		{
+		 "character":["ST1","TEST1","TEST2"],
+		 "type":"default"
+		}
+	 ],
+	 "startTimestamp":16,
+	 "endTimestamp":30
+	}
+	
+  ]
+
+}
