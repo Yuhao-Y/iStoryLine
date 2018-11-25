@@ -20,7 +20,13 @@
   <script src="https://d3js.org/d3-drag.v1.min.js"></script>
   <script src="https://d3js.org/d3-transition.v1.min.js"></script>
   <script src="js/StoryLine.js"></script>
+  <script src="js/drag.js"></script>
+  <script src="js/shift.js"></script>
+  <script src="js/group.js"></script>
+  <script src="js/timelineSlider.js"></script>
+  <script src="js/extension.js"></script>
   <script src="js/WL.js"></script>
+  
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
 </head>
@@ -60,11 +66,6 @@ $(document).ready(function(){
           <p>Opacity: 
                   <input type="range" min="0" max="1" value="1" class="slider" id="lineOpacity">
           </p>   
-
-        
-        
-        
-        
         </div>
 
 
@@ -84,14 +85,22 @@ $(document).ready(function(){
         </div>
     </div>
     <div class="storyBoard">
-        <div id="story" style="width:100%； display:inline;" align="center"> 
+        <div id="story" style="width:100%； display:inline;" align="justify"> 
+        </div> 
+
+        <div id="timelineSlider" style="width:100%； display:inline;" align="justify"> 
+        </div> 
+
+        <div id="extension" style="width:100%； display:inline;" align="justify"> 
+           <iframe align="center" width="100%" height="500" src="extension.html"  frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
         </div> 
     </div>
 
+
     <div class="rightBar" >
         <a id="addButton"><i class="fas fa-plus"></i></a>
-        <a class="interactButton"><i class="fas fa-save"></i></a>
-        <a class="interactButton"><i class="fas fa-arrows-alt"></i></a>
+        <a class="interactButton"><i class="fas fa-save" onclick="group()"></i></a>
+        <a class="interactButton"><i class="fas fa-arrows-alt" onclick="ungroup()"></i></a>
         <a class="interactButton"><i class="fas fa-expand"></i></a>
         <a class="interactButton"><i class="fas fa-hand-paper"></i></a>
         <a class="interactButton"><i class="fas fa-pen-nib"></i></a>
