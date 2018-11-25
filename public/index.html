@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/base/jquery-ui.css">
 
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
   <script defer src="js/icon/solid.js"></script>
   <script defer src="js/icon/fontawesome.js"></script>
   <script src="js/jquery-3.3.1.js"></script>
@@ -21,6 +21,8 @@
   <script src="https://d3js.org/d3-transition.v1.min.js"></script>
   <script src="js/StoryLine.js"></script>
   <script src="js/WL.js"></script>
+  <script src="js/textbox.js"></script>
+  <script type="text/javascript" src="data.json"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
 </head>
@@ -30,7 +32,7 @@ $(document).ready(function(){
   $('.panelBar a').click(function(e) {
     e.preventDefault();
     var $this = $("#"+this.id+".panelBarSpan");
-    $(".panelBar div").not($this).hide();
+    $(".panelBar .panelBarSpan").not($this).hide();
     $this.toggle("fast");
     $("#"+this.id+".button").toggleClass('buttonActive');
     $('a').not(document.getElementById(this.id)).removeClass('buttonActive');
@@ -44,22 +46,22 @@ $(document).ready(function(){
 
 <body>
     <div class="panelBar">
-        <a id="element" class="button"><i class="fas fa-th-list fa-4x"></i><br>Element</a>
-        <div id="element" class="panelBarSpan">
-          //element - character list/visibility/edit profile 
+        <a id="element" class="button"><i class="fas fa-th-list fa-4x" style="height: 75%"></i><br>Element</a>
+        <div id="element" class="panelBarSpan elementPanel">
+          
+          
         </div>
-        <a id="style" class="button"><i class="fas fa-magic fa-4x"></i><br>Style</a>
+        <a id="style" class="button"><i class="fas fa-magic fa-4x" style="height: 75%"></i><br>Style</a>
         <div id="style" class="panelBarSpan">
-          //style - line color, opacity, width
-          <p>Color: <br>
+          <p>Color: <br><br>
             <input type="button" id="colorButton" class="jscolor {valueElement:null,value:'000000', onFineChange:'setColor(this)'}">
           </p>
-          <p>Width: 
-              <input type="range" min="1" max="10" value="2" class="slider" id="lineWidth">
+          <p>Width: <br><br>
+            <input type="range" min="1" max="10" value="2" class="slider" id="lineWidth">
           </p>     
-          <p>Opacity: 
-                  <input type="range" min="0" max="1" value="1" class="slider" id="lineOpacity">
-          </p>   
+          <p>Opacity: <br><br>
+            <input type="range" min="1" max="10" value="10" class="slider" id="lineOpacity">
+          </p>
 
         
         
@@ -68,23 +70,51 @@ $(document).ready(function(){
         </div>
 
 
-        <a id="text" class="button"><i class="fas fa-file-alt fa-4x"></i><br>Text</a>
+        <a id="text" class="button"><i class="fas fa-file-alt fa-4x" style="height: 75%"></i><br>Text</a>
         <div id="text" class="panelBarSpan">
          <p>Textarea:</p>
-         <button onclick="addShortText()">Create short text</button>
+         <button class="textButton" onclick="addShortText()">Add Short Text</button>
          <br>Click on text to edit content and/or drag text box.<br><br>
-         <button onclick="addParagraph()">Create paragraph</button>
-         <br>Click on text to edit content. Drag text box around and resize within the storyboard. <br><br>
-         <button onclick="removeText()">Create short text</button>
-         <br>Click on text to edit content and/or drag text box.<br><br>
+         <button class="textButton" onclick="addParagraph()">Add Paragraph</button>
+         <br>Click on text to edit content. Drag text box around and/or resize. <br><br>
         </div>
-        <a id="event" class="button"><i class="fas fa-haykal fa-4x"></i><br>Event</a>
+        <a id="event" class="button"><i class="fas fa-haykal fa-4x" style="height: 75%"></i><br>Event</a>
         <div id="event" class="panelBarSpan">
-        //event - add symbols, shapes
+
+        <button class="eventButton" onclick="getButton('fas fa-haykal')"><i class="fas fa-haykal fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-bomb')"><i class="fas fa-bomb fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-cannabis')"><i class="fas fa-cannabis fa-4x"></i></button><br>
+        <button class="eventButton" onclick="getButton('fas fa-flag')"><i class="fas fa-flag fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-crown')"><i class="fas fa-crown fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-gem')"><i class="fas fa-gem fa-4x"></i></button><br>
+        <button class="eventButton" onclick="getButton('fas fa-award')"><i class="fas fa-award fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-bed')"><i class="fas fa-bed fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-bell')"><i class="fas fa-bell fa-4x"></i></button><br>
+        <button class="eventButton" onclick="getButton('fas fa-angry')"><i class="fas fa-angry fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-skull')"><i class="fas fa-skull fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-meh-rolling-eyes')"><i class="fas fa-meh-rolling-eyes fa-4x"></i></button><br>
+        <button class="eventButton" onclick="getButton('fas fa-bicycle')"><i class="fas fa-bicycle fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-car-side')"><i class="fas fa-car-side fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-plane')"><i class="fas fa-plane fa-4x"></i></button><br>
+        <button class="eventButton" onclick="getButton('fas fa-cat')"><i class="fas fa-cat fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-dragon')"><i class="fas fa-dragon fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-horse')"><i class="fas fa-horse fa-4x"></i></button><br>
+        <button class="eventButton" onclick="getButton('fas fa-snowflake')"><i class="fas fa-snowflake fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-sun')"><i class="fas fa-sun fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-wind')"><i class="fas fa-wind fa-4x"></i></button><br>
+        <button class="eventButton" onclick="getButton('fas fa-ghost')"><i class="fas fa-ghost fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-robot')"><i class="fas fa-robot fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-poo')"><i class="fas fa-poo fa-4x"></i></button><br>
+        <button class="eventButton" onclick="getButton('fas fa-hat-wizard')"><i class="fas fa-hat-wizard fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-shoe-prints')"><i class="fas fa-shoe-prints fa-4x"></i></button>
+        <button class="eventButton" onclick="getButton('fas fa-drum')"><i class="fas fa-drum fa-4x"></i></button>
+  
+
         </div>
+        <a id="trash" class="trashButton" ><i class="fas fa-trash-alt fa-4x"></i></a>
     </div>
     <div class="storyBoard">
-        <div id="story" style="width:100%； display:inline;" align="center"> 
+        <div id="story"> 
         </div> 
     </div>
 
@@ -113,84 +143,78 @@ $(document).ready(function(){
   mouseEvent();
   //-------------Wentao Liu------------------
 	function setColor(picker) {
-		document.getElementsByTagName('button')[0].style.color = '#' + picker.toString()
+		document.getElementById('colorButton').style.color = '#' + picker.toString();
     //-------------Wentao Liu------------------
     changeColor(picker);
     //--------------Wentao Liu------------------
 	}
     //--------------Wentao Liu------------------
     </script>
-
-
-
 <script>
-  //Add draggable short text
-  function addShortText() {
-    var mousePosition;
-    var offset = [0,0];
-    var isDown = false;
-    var textarea = document.createElement("input");
-    textarea.style.position = "absolute";
-    textarea.style.left = "350px";
-    textarea.style.top = "30px";
-    textarea.style.background = "white";
-    textarea.style.color = "blue";
-    textarea.style.border = "none";
-    textarea.style.background = "none";
-    textarea.style.zIndex = "2";
-    textarea.value="text";
-    document.body.appendChild(textarea);
 
-textarea.addEventListener('mousedown', function(e) {
-    isDown = true;
-    offset = [
-    textarea.offsetLeft - e.clientX,
-    textarea.offsetTop - e.clientY
-    ];
-}, true);
+function getButton(buttonName)
+{
+    console.log(buttonName);
+    $('body').append('<div class="draggable eventDrag"><i class="'+ buttonName+' fa-3x"></i></div>');
+   $('.draggable').draggable({
+         connectWith: '#trash'
+       });
 
-document.addEventListener('mouseup', function() {
-    isDown = false;
-}, true);
-
-document.addEventListener('mousemove', function(event) {
-    event.preventDefault();
-    if (isDown) {
-        mousePosition = {
-            x : event.clientX,
-            y : event.clientY
-        };
-        textarea.style.left = (mousePosition.x + offset[0]) + 'px';
-        textarea.style.top  = (mousePosition.y + offset[1]) + 'px';
-    }
-}, true);
-
+   //selected = $('#d'+t);
+   $('.ui-resizable').removeClass( "ui-resizable" );
 }
+
 </script>
 
 <script>
-  //Add draggable & resizable text box for paragraph
-  var t=0;
-  function addParagraph() {
-    $('body').append('<div id="d'+t+'" class="drag"><textarea class="textbox">para</textarea></div>');
-    $( "textarea" ).attr('display', 'inline-block');
-    
 
-    $('.drag').draggable({
-            containment: $('.storyBoard')
-        });
-    $('.drag').resizable({
-            containment: $('.storyBoard')
-        });
-    $('.ui-resizable').removeClass( "ui-resizable" );
-    
-    t++;
+
+listElements();
+function listElements(){
+
+$.getJSON("data.json", function (data) {
+    $.each(data.characters, function (index, value) {
+       console.log(value.name);
+        $('.elementPanel').append('<button id="'+value.id+'" class="elementList">'+value.name+'</button>');
+
+    });
+});
 }
+$(document).ready(function(){
+  $('.elementPanel button').click(function(e) {
+    e.preventDefault();
+    $("#"+this.id+".elementList").toggleClass('elementNotActive');
+    curr=this.id;
+    if($("#"+this.id).hasClass('elementNotActive')){
+        elementState(this.id,0);
+        //changeOpacityCircle(0);
+    }
+    else{
+        elementState(this.id,1);
+        //changeOpacityCircle(10);
+        }
 
-  </script>
-  <script>
+  });
+});
+
+
+</script>
+
+<script>
+   //Delete area
+   $('.draggable').draggable({
+           connectWith: '#trash'
+       });
+
+   $("#trash").droppable({
+   accept: '.draggable',
+   activeClass: 'dropArea',
+   hoverClass: 'dropAreaHover',
+   drop: function(event, ui) {
+       ui.draggable.remove();
+   }
+});
+</script>
   
-  
-  
-  </script>
+
 </html>
