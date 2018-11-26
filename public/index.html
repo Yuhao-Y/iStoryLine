@@ -19,16 +19,11 @@
   <script src="https://d3js.org/d3-selection.v1.min.js"></script>
   <script src="https://d3js.org/d3-drag.v1.min.js"></script>
   <script src="https://d3js.org/d3-transition.v1.min.js"></script>
+
   <script src="js/StoryLine.js"></script>
-  <script src="js/drag.js"></script>
-  <script src="js/shift.js"></script>
-  <script src="js/group.js"></script>
-  <script src="js/timelineSlider.js"></script>
-  <script src="js/extension.js"></script>
   <script src="js/WL.js"></script>
   <script src="js/textbox.js"></script>
   <script type="text/javascript" src="data.json"></script>
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
 </head>
@@ -69,6 +64,10 @@ $(document).ready(function(){
             <input type="range" min="1" max="10" value="10" class="slider" id="lineOpacity">
           </p>
 
+        
+        
+        
+        
         </div>
 
 
@@ -115,31 +114,20 @@ $(document).ready(function(){
         </div>
         <a id="trash" class="trashButton" ><i class="fas fa-trash-alt fa-4x"></i></a>
     </div>
-    <div class="storyBoard">
-        <div id="story" style="width:100%； display:inline;" align="justify"> 
-        </div> 
 
-        <div id="timelineSlider" style="width:100%； display:inline;" align="justify"> 
-        </div> 
-
-        <div id="extension" style="width:100%； display:inline;" align="justify"> 
-           <iframe align="center" width="100%" height="500" src="extension.html"  frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+    <div id="capture" class="storyBoard">
+        <div id="story"> 
         </div> 
     </div>
 
 
     <div class="rightBar" >
         <a id="addButton"><i class="fas fa-plus"></i></a>
-        <a class="interactButton"><i class="fas fa-save" onclick="group()"></i></a>
-        <a class="interactButton"><i class="fas fa-arrows-alt" onclick="ungroup()"></i></a>
-        <a class="interactButton"><i class="fas fa-expand"></i></a>
-        <a class="interactButton"><i class="fas fa-hand-paper"></i></a>
-        <a class="interactButton"><i class="fas fa-pen-nib"></i></a>
-        <a class="interactButton"><i class="fas fa-edit"></i></a>
-        <a class="interactButton"><i class="fas fa-undo-alt"></i></a>
-        <a class="interactButton"><i class="fas fa-random"></i></a>
-        <a class="interactButton"><i class="fas fa-i-cursor fa-rotate-90"></i></a>
-        <a class="interactButton"><i class="fas fa-code-branch fa-rotate-90"></i></a>
+        <div class="tooltip"><span class="tooltiptext">Merge</span><a class="interactButton"><i class="fas fa-code-branch fa-rotate-270"></i></a></div>
+        <div class="tooltip"><span class="tooltiptext">Split</span><a class="interactButton"><i class="fas fa-drafting-compass fa-rotate-270"></i></a></div>
+        <div class="tooltip"><span class="tooltiptext">Group</span><a class="interactButton"><i class="fas fa-users"></i></a></div>
+        <div class="tooltip"><span class="tooltiptext">Ungroup</span><a class="interactButton"><i class="fas fa-child"></i></a></div>
+        
     </div>
 
 
@@ -178,15 +166,12 @@ function getButton(buttonName)
 
 <script>
 
-
 listElements();
 function listElements(){
-
 $.getJSON("data.json", function (data) {
     $.each(data.characters, function (index, value) {
        console.log(value.name);
         $('.elementPanel').append('<button id="'+value.id+'" class="elementList">'+value.name+'</button>');
-
     });
 });
 }
@@ -194,20 +179,16 @@ $(document).ready(function(){
   $('.elementPanel button').click(function(e) {
     e.preventDefault();
     $("#"+this.id+".elementList").toggleClass('elementNotActive');
-    curr=this.id;
+    //curr=this.id;
+    console.log(this.id);
     if($("#"+this.id).hasClass('elementNotActive')){
         elementState(this.id,0);
-        //changeOpacityCircle(0);
     }
     else{
         elementState(this.id,1);
-        //changeOpacityCircle(10);
-        }
-
+    }
   });
 });
-
-
 </script>
 
 <script>
@@ -225,6 +206,8 @@ $(document).ready(function(){
    }
 });
 </script>
-  
+
+
+
 
 </html>
