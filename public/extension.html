@@ -6,63 +6,67 @@
   stroke-width: 1.5px;
 }
 
+.text {
+  font-weight: bold;
+  fill:#FFF;
+  font-family: cursive;
+}
+
+line {
+    stroke: #000;
+    stroke-opacity: 0.3;
+    stroke-width: 5px;
+ }
+
 </style>
 <body>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 
 <script>
 
-var width = 960,
-    height = 500;
+var width = 3000;
+var height = 600;
+var circle_r = 30;
 
 var fill = d3.scale.category10();
 
 var nodes = new Array();
 
-var scenesNumber = 1;
-
-var scene = parent.scenes[scenesNumber-1];
-
 var characterMap = parent.characterMap;
 
 var characterNodeMap = new Map();
 
+var characterGroupMap = new Map();
+
+var groupCoordinateMap = new Map();
+
+var node;
+
 characterMap.forEach(function (value, key, map) {
     var node = {};
-    node.x = 10;
-    node.y = 10;
+    node.x = 100;
+    node.y = 100;
     node.value = value;
     node.id = key;
-    //nodes.push(node);
     characterNodeMap.set(key, node);
 });
 
-createGroupFromScene(scene, scenesNumber);
+var svg = d3.select("body").append("svg")
+    .attr("width", "100%")
+    .attr("height", height);
 
-console.log(nodes);
+createGroupFromScene(1);
 
 var force = d3.layout.force()
     .nodes(nodes)
     .size([width, height])
     .on("tick", tick)
-    .chargeDistance(500)
+    .charge(-600)
     .start();
 
-var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height);
 
-var node = svg.selectAll(".node")
-    .data(nodes)
-    .enter().append("circle")
-    .attr("class", "node")
-    .attr("cx", function(d) { return d.x; })
-    .attr("cy", function(d) { return d.y; })
-    .attr("r", 12)
-    .style("fill", function(d, i) { return d.value.color; })
-    .style("stroke", function(d, i) { return d3.rgb(d.value.color).darker(2); })
-    .call(force.drag)
-    .on("mousedown", function() { d3.event.stopPropagation(); });
+
+createNode();
 
 svg.style("opacity", 1e-6)
     .transition()
@@ -75,26 +79,50 @@ d3.select("body")
 function tick(e) {
 
   // Push different nodes in different directions for clustering.
-  var k = 6 * e.alpha;
+  var k = 50 * e.alpha;
 
-  // nodes.forEach(function(o, i) {
-  //   if(o.id == 'R2D' || o.id == 'DV1') {
-  //     o.y += 0.05;
-  //     o.x += 0.0;
-  //   } else if(o.id == 'TEST1'){
-  //     o.y += 0.1;
-  //     o.x += 0.0;
-  //   } else {
-  //     o.y += -0.15;
-  //     o.x += -0.0;
-  //   }
+  nodes.forEach(function(o,i) {
+    
+    if (characterGroupMap.has(o.id)) {
+      var coordinate = groupCoordinateMap.get(characterGroupMap.get(o.id));
+      o.x += -coordinate.x*k;
+    } else {
+      o.x += k*i;
+    }
 
-  // });
+  });
 
-  createGroupFromScene(scene, scenesNumber)
+  node.attr("transform", nodeTransform); 
+}
 
-  node.attr("cx", function(d) { return d.x; })
-      .attr("cy", function(d) { return d.y; });
+function createNode() {
+  svg.selectAll(".node").remove();
+
+    node = svg.selectAll(".node")
+      .data(nodes, function(d) { return d.id; });
+
+    var nodeEnter = node.enter().append("svg:g")
+      .attr("class", "node")
+      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+      .call(force.drag);
+
+    nodeEnter.append("circle")
+    .attr("class", "node")
+    .attr("cx", function(d) { return d.x; })
+    .attr("cy", function(d) { return d.y; })
+    .attr("r", circle_r)
+    .style("opacity", 0)
+
+    nodeEnter.append("svg:image")
+    .attr("xlink:href", function(d) {return d.value.profile})
+    .attr("x", function(d) { return -25;})
+    .attr("y", function(d) { return -25;})
+    .attr("height", 150)
+    .attr("width", 150);
+}
+
+function nodeTransform(d) {
+    return "translate(" + d.x + "," + d.y + ")";
 }
 
 function mousedown() {
@@ -102,53 +130,102 @@ function mousedown() {
     o.x += (Math.random() - .5) * 40;
     o.y += (Math.random() - .5) * 40;
   });
-  force.resume();
 }
 
-function createGroupFromScene(scene, scenesNumber) {
-  var characterGroupMap = new Map();
-  var groupCoordinateMap = new Map();
+function restart(sceneNumber) {
+  nodes.splice(0, nodes.length);
+  createGroupFromScene(sceneNumber);
+  
+  createNode();
+  force.start();
+}
+
+function createGroupFromScene(scenesNumber) {
+  var scene = parent.scenes[scenesNumber-1];
+
+
+  characterGroupMap = new Map();
+  groupCoordinateMap = new Map();
 
   if(scene.hasOwnProperty("groups") == true){
+
     for(var i = 0; i < scene.groups.length; i++) {
       var coordinate = {};
-      coordinate.x = Math.random();
-      coordinate.y = Math.random();
+      coordinate.x = i + 1;
+      coordinate.y = i + 1;
 
-       groupCoordinateMap.put(i, coordinate);
+
+       groupCoordinateMap.set(i, coordinate);
 
        scene.groups[i].character.forEach(function(c) {
-        characterGroupMap.put(c, i);
+        characterGroupMap.set(c, i);
        })
     }
+
   }
 
-  characterNodeMap.forEach(function (node, key, map) {
-    console.log(node);
-    if (node.value.startTimestamp <= scenesNumber && node.value.endTimestamp >= scenesNumber && nodes.indexOf(node) == -1) { 
-      nodes.push(node);
-    } else if(node.value.startTimestamp > scenesNumber || node.value.endTimestamp < scenesNumber && nodes.indexOf(node) >= 0) {
-      var index = nodes.indexOf(node);
+
+  characterNodeMap.forEach(function (characterNode, key, map) {
+
+    if (characterNode.value.startTimestamp <= scenesNumber && characterNode.value.endTimestamp >= scenesNumber && nodesHas(characterNode) == false) {
+
+      nodes.push(characterNodeMap.get(key));      
+    } else if( (characterNode.value.startTimestamp > scenesNumber || characterNode.value.endTimestamp < scenesNumber) && nodesHas(characterNode) == true) {
+      
+      var index = indexOfNode(characterNode);
       nodes.splice(index, 1);
     }
   });
 
-
-
-  nodes.forEach(function(node) {
-    if (characterGroupMap.has(node.id)) {
-      var coordinate = groupCoordinateMap.get(characterGroupMap.get(node.id));
-
-      node.x = coordinate.x; 
-      node.y = coordinate.y;
-    } else {
-      node.x = Math.random();
-      node.y = Math.random();
-    }
-
-
-  });
-
+  addSceneName(scene);
 }
 
+function addSceneName(scene) {
+  svg.select(".text").remove();
+  svg.select("rect").remove();
+
+  svg.append("rect")
+            .attr('fill', '#000')
+
+  var text = svg.append('g').attr('class','text');
+  text.append('text')
+            .attr('x', 200)
+            .attr('y', 80)
+            .attr("font-size",80)
+            .attr('class', scene.name)
+            .attr('id', 'title')
+            .text(scene.name);
+
+  var textBox = document.getElementById("title").getBBox();
+
+  svg.select('rect')
+            .attr("x", textBox.x - 10)
+            .attr("y", textBox.y - 5)
+            .attr("width", textBox.width + 20)
+            .attr("height", textBox.height + 10)
+}
+
+function nodesHas(node) {
+
+  nodes.forEach(function(d){
+    if(node.id == d.id) {
+      return true;
+    }
+  }); 
+
+  return false;
+}
+
+function indexOfNode(node) {
+  var index = -1;
+
+  nodes.forEach(function(d, i){
+    if(node.id == d.id) {
+      index = i;
+      return;
+    }
+  }); 
+
+  return index;
+}
 </script>

@@ -1,24 +1,33 @@
 
-var character_width = 8;
+var character_width = 10;
 var character_height = 30;
-var character_x = 100;
-var character_y = 50;
-var scenesLen = 35;
+var character_x = 150;
+var character_y = 100;
+var scenesLen = 70;
 var scenseVerLineHeight = character_y + 1;
-var circle_distance_group = 15;
+var circle_distance_group = 30;
 var duration_time = 1000;
+var circle_r = 8
 var largestScenseCount = 0;
 var svgContainer;
 var scenes;
 var characterMap = new Map();
+var selectedCharacter = new Array();
+var defaultPathWidth = 10;
+var svgContainer;
+var sliderSvgContainer;
+var currentScene = 0;
 
-d3.json('data.json', function(err, data){
+var dataPath = "data/data.json";
 
+d3.json(dataPath, function(err, data){
 	var characters = data.characters;
 	scenes = getScenesList(data.scenes);
 	svgContainer = d3.select("#story").append("svg")
                                     	.attr("width", 20000)
-                                    	.attr("height", 800);
+                                    	.attr("height", 1500);
+
+    sliderSvgContainer = d3.select("#timelineSlider").append("svg").attr("width", 20000).attr("height", 50);
     
     var lines = new Array();
 
@@ -29,7 +38,7 @@ d3.json('data.json', function(err, data){
         line.points = new Array();
         line.id = characters[i].id;
         line.color = characters[i].color;
-        line.width = 2;
+        line.width = defaultPathWidth;
         line.opacity = 1;
     	lines.push(line);
 
@@ -44,7 +53,8 @@ d3.json('data.json', function(err, data){
                 .attr('fill', characters[i].color)
                 .attr('class', characters[i].id);
 
-        characterMap.set(characters[i].id, {x:character_width, y:i*character_y + character_height/2, color:characters[i].color, startTimestamp:characters[i].startTimestamp, endTimestamp:characters[i].endTimestamp});
+
+        characterMap.set(characters[i].id, {x:character_width, y:getCharacterYCoordinate(i), profile:characters[i].profile,color:characters[i].color, startTimestamp:characters[i].startTimestamp, endTimestamp:characters[i].endTimestamp});
         
         //get the start point
         points.push({x:character_width, y:i*character_y + character_height/2});
@@ -52,19 +62,12 @@ d3.json('data.json', function(err, data){
         //add text
         var text = svgContainer.append('g').attr('class','text');
 
-        // Apppend two actual 'text' nodes to fake an 'outside' outline.
         text.append('text').attr('text-anchor', 'end')
             .attr('x', character_x - 2)
-            .attr('y', i*character_y + character_height)
-            .attr("font-size",10)
+            .attr('y', i*character_y + character_height/1.5)
+            .attr("font-size",20)
             .attr('class', characters[i].id)
             .text(characters[i].name);
-
-        // text.append('text').attr('class', 'color').attr('text-anchor', 'end')
-        //     .attr('x', character_x - 2)
-        //     .attr('y', i*character_y + character_height)
-        //     .attr("font-size",10)
-        //     .text(characters[i].name); 
       
     }   
 
@@ -200,7 +203,7 @@ function drawScienseVerticalLine(data) {
         var point = new Array();
         point.push({x:i*scenesLen + character_x, y:0});
         point.push({x:i*scenesLen + character_x, y:scenseVerLineHeight * data.length});
-        svgContainer.append('path').attr('d', line(point)).style('stroke', '#6E7B8B').style("stroke-opacity", 0.2).style('stroke-width', 1).style('fill','none');
+        svgContainer.insert('path', 'circle').attr('d', line(point)).style('stroke', '#6E7B8B').style("stroke-opacity", 0.2).style('stroke-width', 1).style('fill','none');
     }
 }
 
@@ -251,7 +254,7 @@ function drawCurveLine(line) {
         
     var pathData = lineGenerator(path);
         
-    svgContainer.append('path').attr('d', pathData).attr('class', line.id).style('stroke', line.color).style("stroke-opacity", line.opacity).style('stroke-width', line.width)
+    svgContainer.insert('path', 'circle').attr('d', pathData).attr('class', line.id).style('stroke', line.color).style("stroke-opacity", line.opacity).style('stroke-width', line.width)
 }
 
 function removeOldLineAndGenerateNewLine(characterID) {
