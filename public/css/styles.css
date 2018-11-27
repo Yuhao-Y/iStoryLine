@@ -131,7 +131,7 @@ h1 {
     text-align: center;
 	text-decoration:none;
     text-shadow:0px 1px 0px #f5f5f5;
-    margin:10px;
+    
     width: 40px;
     height: 40px;
 
@@ -164,6 +164,43 @@ box-align:center;
 	top:1px;
 }
 
+.tooltip {
+    position: relative;
+    display: inline-block;
+    
+    margin:10px;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 80px;
+    background-color: rgb(117, 117, 117);
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: 0px;
+    right: 110%;
+
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent transparent rgb(117, 117, 117);
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
 
 .slider {
     -webkit-appearance: none;

@@ -8,24 +8,6 @@ function mouseEvent(){
     d3.select(".storyBoard").selectAll("circle").on("click", function(data) {
         console.log(this)
         curr = d3.select(this).attr("class")
-
-        //using to grouping
-        var curCharacter = d3.select(this)
-        var isSelectedCharacter = false
-        selectedCharacter.forEach(function(character){
-          character.attr("scenesNumber") 
-          
-          if(character.attr("class") == curCharacter.attr("class") && character.attr("scenesNumber") == curCharacter.attr("scenesNumber")) {
-            isSelectedCharacter = true
-          }
-        })
-
-        if(isSelectedCharacter == false) {
-          console.log(curCharacter.attr("class"))
-          selectedCharacter.push(curCharacter)
-        }
-			 
-        
       })
     d3.select(".storyBoard").selectAll("path").on("click", function(data) {
         console.log(this)
