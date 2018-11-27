@@ -304,11 +304,11 @@ box-align:center;
 
 .storyBoard {
     background-color: #ffffff;
+    border:10px solid #000;
     position: fixed;
     left: 130px;
     right: 70px;
     padding-top: 50px;
-    height: 96%;
     top: 2%;
     z-index: -1;
 }
@@ -319,12 +319,31 @@ box-align:center;
     fill: none;
 }
 
+.storyBoard text { 
+    font-weight: bold;
+}
+
+#story circle {
+    cursor: crosshair;
+    opacity: 0;
+}
+
+#story rect {
+    cursor: crosshair;
+}
+
 .storyBoard .axis path,
 .axis line {
     fill: none;
     stroke: grey;
     stroke-width: 1;
     shape-rendering: crispEdges;
+}
+
+
+#extension{
+    border:1px solid #000;
+    width:"95%";
 }
 
 /*timeline*/
@@ -345,10 +364,10 @@ box-align:center;
 }
 
 .timeline-overlay {
-      pointer-events: stroke;
-      stroke-width: 50px;
-      stroke: transparent;
-      cursor: crosshair;
+    pointer-events: stroke;
+    stroke-width: 50px;
+    stroke: transparent;
+    cursor: crosshair;
 }
 
 .handle {

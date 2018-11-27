@@ -1,3 +1,5 @@
+
+
 function createTimelineSlider() {	
 
 	sliderSvgContainer.append('line')
@@ -13,13 +15,18 @@ function createTimelineSlider() {
     			.call(d3.drag()
     					.on("start", dragTimelineStarted)
     					.on("drag", draggedTimeline)
-    					.on("end", dragTimelineended));
+    					.on("end", dragTimelineended))
+    			.on("click", function(data){
+    				var point = d3.mouse(this);
+    				sliderSvgContainer.select(".handle").attr("cx", point[0]);
+    				extensionRestart(point[0]);
+    			});
 
 
 	sliderSvgContainer.insert("circle",".timeline-overlay")
             .attr("cx", getScenesXCoordinate(1) - 10)
             .attr("cy", 15)
-            .attr("r",9)
+            .attr("r",15)
             .attr('class', "handle")
 }
 
@@ -36,6 +43,15 @@ function draggedTimeline(d) {
 	}
 
 	sliderSvgContainer.select(".handle").attr("cx", moveX);
+	extensionRestart(moveX);
+}
+
+function extensionRestart(newX) {
+	if(currentScene != parseInt((newX - getScenesXCoordinate(1)) / scenesLen)) {
+		//console.log(document.getElementById('ext').contentWindow.circle_r)
+		currentScene = parseInt((newX - getScenesXCoordinate(1)) / scenesLen);
+		document.getElementById('ext').contentWindow.restart(currentScene + 1)
+	}
 }
 
 function dragTimelineended() {

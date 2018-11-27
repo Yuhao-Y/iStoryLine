@@ -4,7 +4,7 @@
         "id": "R2D",
         "name": "R2-D2",
         "affiliation": "light",
-	"profile":"",
+	"profile": "data/characters/Agent_Brown.png",
 	"color":"red",
 	"gender":"",
 	"startTimestamp":1,
@@ -13,7 +13,7 @@
        {
         "id": "DV1",
         "name": "Darth Vader",
-	"profile":"",
+	"profile": "data/characters/Agent_Brown.png",
 	"color":"black",
 	"gender":"",
 	"startTimestamp":1,
@@ -22,7 +22,7 @@
       {
         "id": "ST1",
         "name": "Stormtroopers",
-	"profile":"",
+	"profile": "data/characters/Agent_Brown.png",
 	"color":"blue",
 	"gender":"",
 	"startTimestamp":1,
@@ -31,7 +31,7 @@
       {
         "id": "TEST1",
         "name": "TEST1",
-	"profile":"",
+	"profile": "data/characters/Agent_Brown.png",
 	"color":"blue",
 	"gender":"",
 	"startTimestamp":5,
@@ -40,7 +40,7 @@
       {
         "id": "TEST2",
         "name": "TEST2",
-	"profile":"",
+	"profile": "data/characters/Agent_Brown.png",
 	"color":"blue",
 	"gender":"",
 	"startTimestamp":10,
