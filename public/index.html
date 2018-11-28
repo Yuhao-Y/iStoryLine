@@ -57,6 +57,9 @@ $(document).ready(function(){
         </div>
         <a id="style" class="button"><i class="fas fa-magic fa-4x" style="height: 75%"></i><br>Style</a>
         <div id="style" class="panelBarSpan">
+                <span class="zoomIn" style="font-size:120%"><button class="zoomButton">Zoom In</button></span>
+                
+                <span class="zoomOut" style="font-size:80%"><button class="zoomButton">Zoom Out</button></span>
           <p>Color: <br><br>
             <input type="button" id="colorButton" class="jscolor {valueElement:null,value:'000000', onFineChange:'setColor(this)'}">
           </p>
@@ -115,20 +118,25 @@ $(document).ready(function(){
   
 
         </div>
-        <a id="trash" class="trashButton" ><i class="fas fa-trash-alt fa-4x"></i></a>
+        
     </div>
+    <a id="trash" class="trashButton" style="display:inline"><i class="fas fa-trash-alt fa-4x"></i></a>
+    
 
-    <div id="capture" class="storyBoard">
-        <div id="story" style="width:100%； display:inline;" align="justify"> 
-        </div> 
 
-        <div id="timelineSlider" style="width:100%； display:inline;" align="justify"> 
+    <div id="divpnlChart" runat="server" class="storyBoard">
+        <div id="story" style="display:inline;"> 
         </div> 
+        <div id="timelineSlider" style="display:inline;"> 
+            </div> 
 
-        <div id="extension" style="width:100%； display:inline;" align="justify"> 
-           <iframe id="ext" align="center" width="100%" height="600" src="extension.html"  frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-        </div> 
+        
     </div>
+    
+    <div id="extension" class="extBoard"> 
+            
+            <iframe id="ext" width="100%" height="100%" src="extension.html" scrolling="no"></iframe>
+    </div> 
 
 
     <div class="rightBar" >
@@ -218,6 +226,32 @@ $(document).ready(function(){
 </script>
 
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        var currZoom = $("#divpnlChart").css("zoom");
+        if (currZoom == 'normal') currZoom = 1; // For IE
 
+        $(".zoomIn").click(function () {
+            currZoom *= 1.2;
+            $("#divpnlChart").css("zoom", currZoom);
+            $("#divpnlChart").css("-moz-transform", "Scale(" + currZoom + ")");
+            $("#divpnlChart").css("-moz-transform-origin", "0 0");
+
+        });
+        $(".zoomOff").click(function () {
+        $("#divpnlChart").css("zoom", 1);
+$("#divpnlChart").css("-moz-transform", "Scale(" + currZoom + ")");
+        $("#divpnlChart").css("-moz-transform-origin", "0 0");
+
+        });
+        $(".zoomOut").click(function () {
+            currZoom *= .8;
+          $("#divpnlChart").css("zoom", currZoom);
+          $("#divpnlChart").css("-moz-transform", "Scale(" + currZoom + ")");
+          $("#divpnlChart").css("-moz-transform-origin", "0 0");
+
+        });
+    });
+</script>
 
 </html>
