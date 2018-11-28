@@ -24,8 +24,8 @@ line {
 
 <script>
 
-var width = 3000;
-var height = 600;
+var width = 1000;
+var height = 300;
 var circle_r = 30;
 
 var fill = d3.scale.category10();
@@ -44,8 +44,8 @@ var node;
 
 characterMap.forEach(function (value, key, map) {
     var node = {};
-    node.x = 100;
-    node.y = 100;
+    node.x = 0;
+    node.y = 0;
     node.value = value;
     node.id = key;
     characterNodeMap.set(key, node);
@@ -61,7 +61,7 @@ var force = d3.layout.force()
     .nodes(nodes)
     .size([width, height])
     .on("tick", tick)
-    .charge(-600)
+    .charge(-100)
     .start();
 
 
@@ -79,7 +79,7 @@ d3.select("body")
 function tick(e) {
 
   // Push different nodes in different directions for clustering.
-  var k = 50 * e.alpha;
+  var k = 20 * e.alpha;
 
   nodes.forEach(function(o,i) {
     
@@ -117,8 +117,8 @@ function createNode() {
     .attr("xlink:href", function(d) {return d.value.profile})
     .attr("x", function(d) { return -25;})
     .attr("y", function(d) { return -25;})
-    .attr("height", 150)
-    .attr("width", 150);
+    .attr("height", 50)
+    .attr("width", 50);
 }
 
 function nodeTransform(d) {
@@ -189,9 +189,9 @@ function addSceneName(scene) {
 
   var text = svg.append('g').attr('class','text');
   text.append('text')
-            .attr('x', 200)
-            .attr('y', 80)
-            .attr("font-size",80)
+            .attr('x', 50)
+            .attr('y', 20)
+            .attr("font-size",20)
             .attr('class', scene.name)
             .attr('id', 'title')
             .text(scene.name);

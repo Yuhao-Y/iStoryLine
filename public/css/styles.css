@@ -341,9 +341,9 @@ box-align:center;
 
 .storyBoard {
     background-color: #ffffff;
-    border:10px solid #000;
+    border:3px solid #000;
     position: fixed;
-    left: 130px;
+    left: 100px;
     right: 70px;
     padding-top: 50px;
     top: 2%;
@@ -352,7 +352,7 @@ box-align:center;
 
 .storyBoard path { 
     stroke: steelblue;
-    stroke-width: 2;
+    stroke-width: 1;
     fill: none;
 }
 

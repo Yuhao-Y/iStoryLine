@@ -5,8 +5,8 @@ function createTimelineSlider() {
 	sliderSvgContainer.append('line')
 				.attr('x1', getScenesXCoordinate(1) - 10)
 				.attr('x2', getScenesXCoordinate(largestScenseCount) + 10)
-				.attr('y1', 15)
-				.attr('y2', 15)
+				.attr('y1', 10)
+				.attr('y2', 10)
 				.attr('class', 'timeline')
 				.select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
     			.attr("class", "timeline-inset")
@@ -25,8 +25,8 @@ function createTimelineSlider() {
 
 	sliderSvgContainer.insert("circle",".timeline-overlay")
             .attr("cx", getScenesXCoordinate(1) - 10)
-            .attr("cy", 15)
-            .attr("r",15)
+            .attr("cy", 10)
+            .attr("r",10)
             .attr('class', "handle")
 }
 
