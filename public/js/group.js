@@ -61,16 +61,17 @@ function group() {
         return;
     }
 
-    var scenesNumber = selectedCharacter[0].attr("scenesNumber")
+    var scenesNumber = selectedCharacter[0].attr("scenesNumber");
+
 
     for(var i = 1; i < selectedCharacter.length; i++) {
         if(selectedCharacter[i].attr("scenesNumber") != scenesNumber) {
             selectedCharacter = new Array()
             alert("Please select the characters at the same scenes")
-        return;
+            return;
         }
     }
-
+ 
     var newGroup = {};
     newGroup.type = "default"
     newGroup.character = new Array()
@@ -94,12 +95,12 @@ function group() {
         scenes[scenesNumber].groups = new Array()
     }
 
-    scenes[scenesNumber].groups.push(newGroup)
+    scenes[scenesNumber].groups.push(newGroup);
 
-    console.log(scenes[scenesNumber])
-    generateGroup(duration_time)
 
-    selectedCharacter = new Array()
+    generateGroup(duration_time);
+
+    selectedCharacter = new Array();
 }
 
 function ungroup() {
@@ -108,15 +109,18 @@ function ungroup() {
 
         var scenesNumber = character.attr("scenesNumber")
         var characterID = character.attr("class")
-
+         console.log("scenesNumber"+scenesNumber)
         selectedCharacter.forEach(function(character){
             var characterID = character.attr("class")
             if(scenes[scenesNumber].hasOwnProperty("groups")) {
                 for(var i = 0; i < scenes[scenesNumber].groups.length; i++) {
-                    var charGroupIndex = scenes[scenesNumber].groups[i].character.indexOf(characterID)
-                    console.log(charGroupIndex)
+                    var charGroupIndex = scenes[scenesNumber].groups[i].character.indexOf(characterID);
                     if ( charGroupIndex > -1) {
-                        scenes[scenesNumber].groups[i].character.splice(charGroupIndex, 1)
+                        scenes[scenesNumber].groups[i].character.splice(charGroupIndex, 1);
+
+                        var characterY = characterMap.get(characterID).y;
+                        console.log(characterY);
+                        character.transition().attr('cy', characterY).duration(duration_time)
                         return;
                     }
                 }
@@ -124,10 +128,14 @@ function ungroup() {
 
         })
 
-        console.log(scenes[scenesNumber])
     })
 
     generateGroup(duration_time)
 
     selectedCharacter = new Array()
+}
+
+function resumeUngroupCharacter(scene) {
+    
+
 }

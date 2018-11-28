@@ -1,49 +1,49 @@
-
 var character_width = 10;
 var character_height = 30;
 var character_x = 150;
 var character_y = 100;
-var scenesLen = 70;
+var scenesLen = 80;
 var scenseVerLineHeight = character_y + 1;
 var circle_distance_group = 30;
 var duration_time = 1000;
 var circle_r = 8
 var largestScenseCount = 0;
-var svgContainer;
 var scenes;
 var characterMap = new Map();
 var selectedCharacter = new Array();
 var defaultPathWidth = 10;
+
 var svgContainer;
 var sliderSvgContainer;
 var currentScene = 0;
 
 var dataPath = "data/data.json";
+//var dataPath = "data/data-test.json";
 
 d3.json(dataPath, function(err, data){
-	var characters = data.characters;
-	scenes = getScenesList(data.scenes);
-	svgContainer = d3.select("#story").append("svg")
-                                    	.attr("width", 20000)
-                                    	.attr("height", 1500);
+    var characters = data.characters;
+    scenes = getScenesList(data.scenes);
+    svgContainer = d3.select("#story").append("svg")
+                                        .attr("width", 20000)
+                                        .attr("height", 1500);
 
     sliderSvgContainer = d3.select("#timelineSlider").append("svg").attr("width", 20000).attr("height", 50);
     
     var lines = new Array();
 
     for(var i = 0; i < characters.length; i++) {
-    	//lines
-    	var points = new Array();
+        //lines
+        var points = new Array();
         var line = {};
         line.points = new Array();
         line.id = characters[i].id;
         line.color = characters[i].color;
         line.width = defaultPathWidth;
         line.opacity = 1;
-    	lines.push(line);
+        lines.push(line);
 
-    	//draw character
-    	var character = svgContainer.append("rect")
+        //draw character
+        var character = svgContainer.append("rect")
                 .attr("x", character_x)
                 .attr("y", i*character_y)
                 .attr("width", character_width)
@@ -52,7 +52,6 @@ d3.json(dataPath, function(err, data){
                 .attr("id", characters[i].id)
                 .attr('fill', characters[i].color)
                 .attr('class', characters[i].id);
-
 
         characterMap.set(characters[i].id, {x:character_width, y:getCharacterYCoordinate(i), profile:characters[i].profile,color:characters[i].color, startTimestamp:characters[i].startTimestamp, endTimestamp:characters[i].endTimestamp});
         
@@ -76,95 +75,78 @@ d3.json(dataPath, function(err, data){
     for(var i = 0; i < scenes.length; i++) {
         largestScenseCount = Math.max(largestScenseCount, scenes[i].endTimestamp);   
 
-    	scenesPoint.push(new Array());
+        scenesPoint.push(new Array());
 
-    	for(var j = 0; j < characters.length; j++) {
-    		var character = characterMap.get(characters[j].id);
-    		if(character.startTimestamp > i+1 || character.endTimestamp < i+1) {
-    			
-    			continue;
-    		}
+        for(var j = 0; j < characters.length; j++) {
+            var character = characterMap.get(characters[j].id);
+            if(character.startTimestamp > i+1 || character.endTimestamp < i+1) {
+                
+                continue;
+            }
 
-    		var point = {};
+            var point = {};
 
- 			point.x = scenes[i].startTimestamp*scenesLen + character_x;
- 			point.y = character.y;
+            point.x = getScenesXCoordinate(scenes[i].startTimestamp);
+            point.y = character.y;
 
-        	//draws scenes
-        	var scene = svgContainer.append("circle")
+            //draws scenes
+            var scene = svgContainer.append("circle")
             .attr("cx", point.x)
             .attr("cy", point.y)
-            .attr("r",3)
+            .attr("r",circle_r)
             .attr("name", scenes[i].name)
             .attr('fill', characters[j].color)
             .attr('class', characters[j].id)
             .attr('scenesNumber', scenes[i].scenesNumber)
 
-        	lines[j].points.push(point);
-        	scenesPoint[i].push(point);
-    	}    
+            lines[j].points.push(point);
+            scenesPoint[i].push(point);
+        }    
     }
 
-    generateGroup(duration_time);
+    
 
     drawCurveLines(lines);
 
     drawScienseVerticalLine(lines);
 
+    //move up the circle over the line to make the circle selection easily
+    d3.select(".storyBoard").selectAll("circle").remove();
+    drawCircle(characters);
+    generateGroup(duration_time);
+
     //add drag event
     d3.select(".storyBoard").selectAll("circle").call(d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended));
     d3.select(".storyBoard").selectAll("rect").call(d3.drag().on("start", shiftstarted).on("drag", shiftted).on("end",shiftended));
+
+    createTimelineSlider();
 });
 
+function drawCircle(characters) {
+    for(var i = 0; i < scenes.length; i++) { 
 
-function generateGroup(duration) {
+        for(var j = 0; j < characters.length; j++) {
+            var character = characterMap.get(characters[j].id);
+            if(character.startTimestamp > i+1 || character.endTimestamp < i+1) {
+                
+                continue;
+            }
 
-    for(var i = 0; i < scenes.length; i++) {
-        if(scenes[i].hasOwnProperty("groups")) {
+            var point = {};
 
-            var groups = scenes[i].groups;
-            
-            groups.forEach(function(group){
-                var sortedCharacterArr = new Array();
+            point.x = scenes[i].startTimestamp*scenesLen + character_x;
+            point.y = character.y;
 
-                d3.select('.storyBoard').selectAll('rect').selectAll(function(){
-                    var selectedCharacter = d3.select(this)
-                    group.character.forEach(function(character){
-                        if(selectedCharacter.attr('class') == character) {
-                            sortedCharacterArr.push(selectedCharacter);
-                        }
-                    });
-                });
-
-                sortedCharacterArr.sort(sortByCharacterX);
-                var startY = characterMap.get(sortedCharacterArr[0].attr('class')).y
-
-                d3.select('.storyBoard').selectAll('circle').selectAll(function(){
-                    if(d3.select(this).attr('scenesNumber') == scenes[i].scenesNumber) {
-                        if(d3.select(this).attr('class') == sortedCharacterArr[0].attr('class')) {
-                            startY = d3.select(this).attr('cy')*1
-                        } 
-                    }
-                })
-
-                d3.select('.storyBoard').selectAll('circle').selectAll(function(){
-                    if(d3.select(this).attr('scenesNumber') == scenes[i].scenesNumber) {
-                        for(var j = 0; j < sortedCharacterArr.length; j++) {
-                            if(d3.select(this).attr('class') == sortedCharacterArr[j].attr('class')) {
-                                var characterID = sortedCharacterArr[j].attr('class')
-                                if(duration > 0) {
-                                    d3.select(this).transition().tween('rearrange', function(){ return function(){removeOldLineAndGenerateNewLine(characterID)}}).attr('cy', startY + j*circle_distance_group).duration(duration)
-                                } else {
-                                    d3.select(this).attr('cy', startY + j*circle_distance_group)
-                                    removeOldLineAndGenerateNewLine(characterID)
-                                }
-                                
-                            }
-                        }
-                    }
-                })
-            })
-        }
+            //draws scenes
+            var scene = svgContainer.append("circle")
+            .attr("cx", point.x)
+            .attr("cy", point.y)
+            .attr("r",circle_r)
+            .attr("name", scenes[i].name)
+            .attr('fill', characters[j].color)
+            .attr('class', characters[j].id)
+            .attr('scenesNumber', scenes[i].scenesNumber)
+        }    
     }
 }
 
@@ -208,27 +190,33 @@ function drawScienseVerticalLine(data) {
 }
 
 function getScenesList(data) {
-	var scenes = new Array();
-	
-	data.forEach(function(d) {
+    var scenes = new Array();
+    
+    data.forEach(function(d) {
 
-		for(var i = d.startTimestamp; i <= d.endTimestamp; i++) {
+        for(var i = d.startTimestamp; i <= d.endTimestamp; i++) {
 
-			var tmp = {};
-			tmp.name = d.name;
-            tmp.scenesNumber = i;
-			if(d.hasOwnProperty("groups")){
-				tmp.groups = d.groups;
-			}
-			
-			tmp.startTimestamp = i;
-			tmp.endTimestamp = i;
-			scenes.push(tmp);
-		}
+            var tmp = {};
+            tmp.name = d.name;
+            tmp.scenesNumber = i - 1;
+            if(d.hasOwnProperty("groups")){
+                tmp.groups = new Array();
+                d.groups.forEach(function(group) {
+                    var copyGroup = {};
+                    copyGroup.character = group.character.slice();
+                    copyGroup.type = group.type;
+                    tmp.groups.push(copyGroup);
+                });
+            }
+            
+            tmp.startTimestamp = i;
+            tmp.endTimestamp = i;
+            scenes.push(tmp);
+        }
 
-	});
+    });
 
-	return scenes;
+    return scenes;
 }
 
 function drawRect(character) {
@@ -280,93 +268,6 @@ function removeOldLineAndGenerateNewLine(characterID) {
     drawCurveLine(line);
 }
 
-///////////////////drag///////////////
-//drag event
-function dragstarted() {
-    d3.event.subject.active = true;
-}
-
-function dragged(d) {
-
-    d3.select(this).attr("cy", d3.event.y);
-
-    var characterID = d3.select(this).attr("class");
-
-    removeOldLineAndGenerateNewLine(characterID);
-
-    //TO-DO this cause the non-first circle in a group cannot drag
-    generateGroup(0);
-}
-
-function dragended() {
-    d3.event.subject.active = false;
-}
-
-//////////////////shift///////////////
-function shiftstarted() {
-    d3.event.subject.active = true;
-}
-
-function shiftted() {
-    var characterID = d3.select(this).attr("class");
-
-    shiftByCharacterID(characterID, d3.event.y, 0)
-}
-
-function shiftended() {
-    d3.event.subject.active = false;
-    reArrangeCharacter();
-    generateGroup(duration_time);
-}
-
-//if duration > 0 , the shift action will have animation
-function shiftByCharacterID(characterID, newY, duration) {
-    var moveLen = 0;
-
-    d3.select(".storyBoard").select("svg").selectAll("rect").selectAll(
-        function() {
-            if(d3.select(this).attr('class') == characterID) {
-                moveLen = newY - d3.select(this).attr("y");
-                if (duration > 0) {
-                    d3.select(this).transition().attr("y", newY).duration(duration);
-                } else {
-                   d3.select(this).attr("y", newY); 
-                }
-                
-                
-            }
-        }
-    )
-
-    d3.select(".storyBoard").select("svg").selectAll("circle").selectAll(
-        function() {
-            if(d3.select(this).attr('class') == characterID) {
-                if (duration > 0) {
-                    d3.select(this).transition().tween('text', function(){ return function(){removeOldLineAndGenerateNewLine(characterID)}}).attr("cy", d3.select(this).attr("cy")*1 + moveLen).duration(duration);
-                } else {
-                    d3.select(this).attr("cy", d3.select(this).attr("cy")*1 + moveLen);
-                    removeOldLineAndGenerateNewLine(characterID)
-                }
-                
-            }
-        }
-    )
-
-    d3.select(".storyBoard").select("svg").selectAll("text").selectAll(
-        function() {
-            if(d3.select(this).attr('class') == characterID) {
-                if (duration > 0) {
-                    d3.select(this).transition().attr("y", d3.select(this).attr("y")*1 + moveLen).duration(duration);
-                } else {
-                    d3.select(this).attr("y", d3.select(this).attr("y")*1 + moveLen);
-                }
-            }
-        }
-    )
-
-    
-}
-
 function reArrangeCharacter() {
     var characterArr = getSortedCharacter()
 
@@ -393,4 +294,12 @@ function getSortedCharacter() {
 
 function sortByCharacterX(a, b) {
         return a.attr('y') - b.attr('y')
+}
+
+function getCharacterYCoordinate(i) {
+    return i*character_y + character_height/2;
+}
+
+function getScenesXCoordinate(sceneNumber) {
+    return sceneNumber*scenesLen + character_x;
 }
