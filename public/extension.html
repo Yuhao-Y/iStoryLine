@@ -24,8 +24,8 @@ line {
 
 <script>
 
-var width = 3000;
-var height = 600;
+var width = 600;
+var height = 100;
 var circle_r = 30;
 
 var fill = d3.scale.category10();
@@ -53,7 +53,7 @@ characterMap.forEach(function (value, key, map) {
 
 var svg = d3.select("body").append("svg")
     .attr("width", "100%")
-    .attr("height", height);
+    .attr("height", "100%");
 
 createGroupFromScene(1);
 
@@ -117,8 +117,8 @@ function createNode() {
     .attr("xlink:href", function(d) {return d.value.profile})
     .attr("x", function(d) { return -25;})
     .attr("y", function(d) { return -25;})
-    .attr("height", 150)
-    .attr("width", 150);
+    .attr("height", 50)
+    .attr("width", 50);
 }
 
 function nodeTransform(d) {
@@ -189,9 +189,9 @@ function addSceneName(scene) {
 
   var text = svg.append('g').attr('class','text');
   text.append('text')
-            .attr('x', 200)
-            .attr('y', 80)
-            .attr("font-size",80)
+            .attr('x', 50)
+            .attr('y', 20)
+            .attr("font-size",20)
             .attr('class', scene.name)
             .attr('id', 'title')
             .text(scene.name);

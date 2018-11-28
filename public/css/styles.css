@@ -20,6 +20,7 @@ h1 {
     top: 0px;
     padding:4px;
     padding-right:6px;
+    text-align: left;
 
 }
 .panelBar .button {
@@ -247,6 +248,21 @@ box-align:center;
 .eventButton:hover {
     color:black;
 }
+.zoomButton {
+    background-color: #ce40c2;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    width:95%;
+    border:1px solid #421450;
+    border-radius: 5px;
+}
+.zoomButton:hover{background-color: #b45fad;}
 .elementList {
     background-color: #f7bd51;
     color: white;
@@ -311,7 +327,7 @@ box-align:center;
 
 
 /*left panel bar trash*/
-.panelBar .trashButton {
+.trashButton {
 	-moz-box-shadow:inset 0px 0px 0px 0px #edf2f4;
 	-webkit-box-shadow:inset 0px 0px 0px 0px #edf2f4;
 	box-shadow:inset 0px 0px 0px 0px #edf2f4;
@@ -333,17 +349,29 @@ box-align:center;
     height:3.5em;
     position: absolute;
     bottom: 5px;
+    z-index: 3;
+    
 }
 .dropArea {background-color:#e7bcce;}
 .dropAreaHover { background-color: #db8aac; }
 
+.extBoard {
+    background-color: #ffffff;
+    border:10px solid #000;
+    position: fixed;
+    left: 10%;
+    right: 70px;
+    padding-top: 0px;
+    bottom: 2%;
+    z-index: -1;
+}
 /*story board*/
 
 .storyBoard {
     background-color: #ffffff;
     border:10px solid #000;
     position: fixed;
-    left: 130px;
+    left: 10%;
     right: 70px;
     padding-top: 50px;
     top: 2%;
