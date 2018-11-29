@@ -153,8 +153,8 @@ function createGroupFromScene(scenesNumber) {
 
     for(var i = 0; i < scene.groups.length; i++) {
       var coordinate = {};
-      coordinate.x = i;
-      coordinate.y = i;
+      coordinate.x = i+0.5;
+      coordinate.y = i+0.5;
 
 
        groupCoordinateMap.set(i, coordinate);

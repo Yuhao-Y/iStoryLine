@@ -1,0 +1,257 @@
+{
+	"characters": [{
+			"id": "AB",
+			"name": "Agent_Brown",
+			"affiliation": "light",
+			"profile": "data/characters/Agent_Brown.png",
+			"color": "#66ff99",
+			"gender": "",
+			"startTimestamp": 1,
+			"endTimestamp": 65
+		},
+		{
+			"id": "AJ",
+			"name": "Agent_Jones",
+			"profile": "data/characters/Agent_Jones.png",
+			"color": "#99ffcc",
+			"gender": "",
+			"startTimestamp": 1,
+			"endTimestamp": 65
+		},
+		{
+			"id": "AS",
+			"name": "Agent_Smith",
+			"profile": "data/characters/Agent_Smith.png",
+			"color": "#006600",
+			"gender": "",
+			"startTimestamp": 1,
+			"endTimestamp": 58
+		},
+		{
+			"id": "Dozer",
+			"name": "Dozer",
+			"profile": "data/characters/Dozer.png",
+			"color": "#6699ff",
+			"gender": "",
+			"startTimestamp": 12,
+			"endTimestamp": 37
+		},
+		{
+			"id": "Tank",
+			"name": "Tank",
+			"profile": "data/characters/Tank.png",
+			"color": "#1a1aff",
+			"gender": "",
+			"startTimestamp": 12,
+			"endTimestamp": 65
+		},
+		{
+			"id": "Oracle",
+			"name": "Oracle",
+			"profile": "data/characters/Oracle.png",
+			"color": "#993333",
+			"gender": "",
+			"startTimestamp": 26,
+			"endTimestamp": 65
+		},
+		{
+			"id": "Neo",
+			"name": "Neo",
+			"profile": "data/characters/Neo.png",
+			"color": "#0099cc",
+			"gender": "",
+			"startTimestamp": 5,
+			"endTimestamp": 65
+		},
+		{
+			"id": "Trinity",
+			"name": "Trinity",
+			"profile": "data/characters/Trinity.png",
+			"color": "#ff66ff",
+			"gender": "",
+			"startTimestamp": 1,
+			"endTimestamp": 65
+		},
+		{
+			"id": "Morpheus",
+			"name": "Morpheus",
+			"profile": "data/characters/Morpheus.png",
+			"color": "#ff3300",
+			"gender": "",
+			"startTimestamp": 7,
+			"endTimestamp": 65
+		},
+		{
+			"id": "Switch",
+			"name": "Switch",
+			"profile": "data/characters/Switch.png",
+			"color": "#ffff00",
+			"gender": "",
+			"startTimestamp": 10,
+			"endTimestamp": 37
+		},
+		{
+			"id": "Apoc",
+			"name": "Apoc",
+			"profile": "data/characters/Apoc.png",
+			"color": "#cc9900",
+			"gender": "",
+			"startTimestamp": 10,
+			"endTimestamp": 37
+		},
+		{
+			"id": "Cypher",
+			"name": "Cypher",
+			"profile": "data/characters/Cypher.png",
+			"color": "#ccccff",
+			"gender": "",
+			"startTimestamp": 10,
+			"endTimestamp": 38
+		},
+		{
+			"id": "Mouse",
+			"name": "Mouse",
+			"profile": "data/characters/Mouse.png",
+			"color": "#ff9999",
+			"gender": "",
+			"startTimestamp": 16,
+			"endTimestamp": 34
+		},
+		{
+			"id": "Sentinels",
+			"name": "Sentinels",
+			"profile": "data/characters/Sentinels.png",
+			"color": "#730099",
+			"gender": "",
+			"startTimestamp": 22,
+			"endTimestamp": 60
+		}
+
+	],
+	"scenes": [{
+			"name": "Start",
+			"startTimestamp": 1,
+			"endTimestamp": 1
+		},
+		{
+			"name": "Trinity escape from agents",
+			"groups": [{
+				"character": ["Trinity", "AB", "AJ", "AS"],
+				"type": "default"
+			}],
+			"startTimestamp": 2,
+			"endTimestamp": 3
+		},
+		{
+			"name": "Peace1",
+			"startTimestamp": 4,
+			"endTimestamp": 5
+		},
+		{
+			"name": "Trinity meets Neo",
+			"groups": [{
+				"character": ["Neo", "Trinity"],
+				"type": "default"
+			}],
+			"startTimestamp": 6,
+			"endTimestamp": 7
+		},
+		{
+			"name": "Neo arrested by agents",
+			"groups": [{
+				"character": ["Neo", "AB", "AJ", "AS"],
+				"type": "default"
+			}],
+			"startTimestamp": 8,
+			"endTimestamp": 10
+		},
+		{
+			"name": "Neo meets Trinity, Apoc and Switch",
+			"groups": [{
+				"character": ["Trinity", "Apoc", "Neo", "Switch"],
+				"type": "default"
+			}],
+			"startTimestamp": 11,
+			"endTimestamp": 12
+		},
+		{
+			"name": "Neo meets Morpheus and some of his team",
+			"groups": [{
+					"character": ["Morpheus", "Trinity", "Apoc", "Neo", "Switch", "Cypher"],
+					"type": "default"
+				},
+				{
+					"character": ["Tank", "Dozer"],
+					"type": "default"
+				}
+			],
+			"startTimestamp": 13,
+			"endTimestamp": 16
+		},
+		{
+			"name": "Neo to the real world",
+			"groups": [{
+				"character": ["Tank", "Morpheus", "Trinity", "Apoc", "Dozer", "Mouse", "Neo", "Switch", "Cypher"],
+				"type": "default"
+			}],
+			"startTimestamp": 17,
+			"endTimestamp": 22
+		},
+		{
+			"name": "Nebuchadnezzar encounters sentinels",
+			"groups": [{
+				"character": ["Tank", "Trinity", "Apoc", "Morpheus", "Dozer", "Mouse", "Neo", "Switch", "Cypher", "Sentinels"],
+				"type": "default"
+			}],
+			"startTimestamp": 23,
+			"endTimestamp": 24
+		},
+		{
+			"name": "Cypher meets Agent Smith and plans to betray",
+			"groups": [{
+					"character": ["AS", "Cypher"],
+					"type": "default"
+				},
+				{
+					"character": ["Tank", "Morpheus", "Trinity", "Apoc", "Dozer", "Mouse", "Neo", "Switch"],
+					"type": "default"
+				}
+			],
+			"startTimestamp": 25,
+			"endTimestamp": 26
+		},
+		{
+			"name": "Morpheus and Trinity lead Neo to meet the Oracle",
+			"groups": [{
+					"character": ["Oracle", "Trinity", "Morpheus", "Neo"],
+					"type": "default"
+				},
+				{
+					"character": ["Apoc", "Switch", "Mouse", "Cypher"],
+					"type": "default"
+				},
+				{
+					"character": ["Tank", "Dozer"],
+					"type": "default"
+				}
+			],
+			"startTimestamp": 27,
+			"endTimestamp": 28
+		},
+		{
+			"name": "Morpheus's team gathers to leave the Matrix after Neo met the Oracle",
+			"groups": [{
+					"character": ["Trinity", "Morpheus", "Neo", "Apoc", "Mouse", "Switch", "Cypher"],
+					"type": "default"
+				},
+				{
+					"character": ["Tank", "Dozer"],
+					"type": "default"
+				}
+			],
+			"startTimestamp": 29,
+			"endTimestamp": 30
+		}
+		]
+
+	}
