@@ -44,8 +44,8 @@ var node;
 
 characterMap.forEach(function (value, key, map) {
     var node = {};
-    node.x = 0;
-    node.y = 0;
+    node.x = 100;
+    node.y = 100;
     node.value = value;
     node.id = key;
     characterNodeMap.set(key, node);
@@ -79,15 +79,17 @@ d3.select("body")
 function tick(e) {
 
   // Push different nodes in different directions for clustering.
-  var k = 20 * e.alpha;
+  var k = 15 * e.alpha;
 
+  var j = 0;
   nodes.forEach(function(o,i) {
     
     if (characterGroupMap.has(o.id)) {
       var coordinate = groupCoordinateMap.get(characterGroupMap.get(o.id));
       o.x += -coordinate.x*k;
     } else {
-      o.x += k*i;
+      o.x += k*j;
+      j++;
     }
 
   });
@@ -117,8 +119,8 @@ function createNode() {
     .attr("xlink:href", function(d) {return d.value.profile})
     .attr("x", function(d) { return -25;})
     .attr("y", function(d) { return -25;})
-    .attr("height", 50)
-    .attr("width", 50);
+    .attr("height", 70)
+    .attr("width", 70);
 }
 
 function nodeTransform(d) {
@@ -151,8 +153,8 @@ function createGroupFromScene(scenesNumber) {
 
     for(var i = 0; i < scene.groups.length; i++) {
       var coordinate = {};
-      coordinate.x = i + 1;
-      coordinate.y = i + 1;
+      coordinate.x = i;
+      coordinate.y = i;
 
 
        groupCoordinateMap.set(i, coordinate);

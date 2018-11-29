@@ -71,33 +71,32 @@ function changeWidth(lineWidth) {
   })
 }
 
-function changeOpacity(lineOpacity) {
-  d3.selectAll("path").selectAll(function(){
-    if(d3.select(this).attr("class") == curr){
-      d3.select(this).style("stroke-opacity", parseInt(lineOpacity))
-    }
+function changeOpacity(lineOpacity) {  
+  d3.selectAll("path").selectAll(function(){    
+    if(d3.select(this).attr("class") == curr){      
+      d3.select(this).style("stroke-opacity", parseFloat((lineOpacity)/10))      
+      console.log(lineOpacity/10);    
+    }  
   })
 }
 
+
 function elementState(element_class,op){
-d3.selectAll("circle").selectAll(function(){
-  if(d3.select(this).attr("class") == element_class){
-    d3.select(this).style("opacity", parseFloat(op))
-  }
-})
-d3.selectAll("path").selectAll(function(){
-  if(d3.select(this).attr("class") == element_class){
-    d3.select(this).style("stroke-opacity", parseFloat(op))
-  }
-})
-d3.selectAll("rect").selectAll(function(){
-  if(d3.select(this).attr("class") == element_class){
-    d3.select(this).style("opacity", parseFloat(op))
-  }
-})
-d3.selectAll("text").selectAll(function(){
-  if(d3.select(this).attr("class") == element_class){
-    d3.select(this).style("opacity", parseFloat(op))
-  }
-})
+  d3.selectAll("path").selectAll(function(){
+    if(d3.select(this).attr("class") == element_class){
+      d3.select(this).style("stroke-opacity", parseFloat(op))
+    }
+  })
+
+  d3.selectAll("rect").selectAll(function(){
+    if(d3.select(this).attr("class") == element_class){
+      d3.select(this).style("opacity", parseFloat(op))
+    }
+  })
+  
+  d3.selectAll("text").selectAll(function(){
+    if(d3.select(this).attr("class") == element_class){
+      d3.select(this).style("opacity", parseFloat(op))
+    }
+  })
 }
