@@ -3,9 +3,11 @@ var character_height = 10;
 var character_x = 80;
 var character_y = 20;
 var scenesLen = 20;
-var scenseVerLineHeight = character_y + 1;
+var svg_shift_y = 10
+var scenseVerLineHeight = character_y + svg_shift_y + 1;
 var circle_distance_group = 10;
 var duration_time = 1000;
+var delay_time = 100;
 var circle_r = 8
 var largestScenseCount = 0;
 var scenes;
@@ -22,7 +24,7 @@ var dataPath = "data/data.json";
 
 d3.json(dataPath, function(err, data){
     var characters = data.characters;
-    scenes = getScenesList(data.scenes);
+    
     svgContainer = d3.select("#story").append("svg")
                                         .attr("width", 20000)
                                         .attr("height", 300);
@@ -45,7 +47,7 @@ d3.json(dataPath, function(err, data){
         //draw character
         var character = svgContainer.append("rect")
                 .attr("x", character_x)
-                .attr("y", i*character_y)
+                .attr("y", i*character_y + svg_shift_y)
                 .attr("width", character_width)
                 .attr("height", character_height)
                 .attr("name", characters[i].name)
@@ -56,19 +58,21 @@ d3.json(dataPath, function(err, data){
         characterMap.set(characters[i].id, {x:character_width, y:getCharacterYCoordinate(i), profile:characters[i].profile,color:characters[i].color, startTimestamp:characters[i].startTimestamp, endTimestamp:characters[i].endTimestamp});
         
         //get the start point
-        points.push({x:character_width, y:i*character_y + character_height/2});
+        points.push({x:character_width, y:getCharacterYCoordinate(i)});
 
         //add text
         var text = svgContainer.append('g').attr('class','text');
 
         text.append('text').attr('text-anchor', 'end')
             .attr('x', character_x - 2)
-            .attr('y', i*character_y + character_height/1.5)
+            .attr('y', i*character_y + svg_shift_y + character_height/1.5)
             .attr("font-size",10)
             .attr('class', characters[i].id)
             .text(characters[i].name);
       
     }   
+
+    scenes = getScenesList(data.scenes);
 
     var scenesPoint = new Array();
 
@@ -203,7 +207,17 @@ function getScenesList(data) {
                 tmp.groups = new Array();
                 d.groups.forEach(function(group) {
                     var copyGroup = {};
-                    copyGroup.character = group.character.slice();
+                    copyGroup.character = new Array();
+                    group.character.forEach(function(c){
+                        console.log(c);
+                        console.log(characterMap.get(c));
+                        if(characterMap.get(c).endTimestamp >= i) {
+                            copyGroup.character.push(c);
+                        }
+                    });
+                    //copyGroup.character = group.character.slice();
+
+
                     copyGroup.type = group.type;
                     tmp.groups.push(copyGroup);
                 });
@@ -272,10 +286,10 @@ function reArrangeCharacter() {
     var characterArr = getSortedCharacter()
 
     for(var i = 0; i < characterArr.length; i++) {
-        shiftByCharacterID(characterArr[i].attr('class'), i*character_y, duration_time)
+        shiftByCharacterID(characterArr[i].attr('class'), i*character_y + svg_shift_y, duration_time, i*delay_time)
 
         //update the y value in character map since this value would be used when comput the group
-        characterMap.get(characterArr[i].attr('class')).y = i*character_y + character_height/2
+        characterMap.get(characterArr[i].attr('class')).y = i*character_y + svg_shift_y + character_height/2
     }
 }
 
@@ -297,7 +311,7 @@ function sortByCharacterX(a, b) {
 }
 
 function getCharacterYCoordinate(i) {
-    return i*character_y + character_height/2;
+    return i*character_y + svg_shift_y + character_height/2;
 }
 
 function getScenesXCoordinate(sceneNumber) {

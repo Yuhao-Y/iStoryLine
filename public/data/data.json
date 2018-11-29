@@ -134,7 +134,7 @@
 			"endTimestamp": 1
 		},
 		{
-			"name": "Trinity escape from agents",
+			"name": "Trinity escapes from agents",
 			"groups": [{
 				"character": ["Trinity", "AB", "AJ", "AS"],
 				"type": "default"
@@ -143,7 +143,7 @@
 			"endTimestamp": 3
 		},
 		{
-			"name": "Peace1",
+			"name": "Neo shows up",
 			"startTimestamp": 4,
 			"endTimestamp": 5
 		},
@@ -319,7 +319,7 @@
 		{
 			"name": "Neo and Trinity go back to the Matrix to save Morpheus",
 			"groups": [{
-				"character": ["AS", "AB", "AJ", "Morpheus", "Trinity ", "Neo"],
+				"character": ["AS", "AB", "AJ", "Morpheus", "Trinity", "Neo"],
 				"type": "default"
 			}],
 			"startTimestamp": 42,
@@ -384,7 +384,7 @@
 			{
 				"name": "After Neo gets back, they use EMP to destroy Sentinels",
 				"groups": [{
-					"character": ["Tank", "Morpheus", "Trinity ", "Neo "],
+					"character": ["Tank", "Morpheus", "Trinity", "Neo"],
 					"type": "default"
 				}],
 				"startTimestamp": 61,

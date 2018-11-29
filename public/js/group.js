@@ -28,7 +28,7 @@ function generateGroup(duration) {
                 d3.select('.storyBoard').selectAll('circle').selectAll(function(){
                     if(d3.select(this).attr('scenesNumber') == scenes[i].scenesNumber) {
                         if(d3.select(this).attr('class') == sortedCharacterArr[0].attr('class')) {
-                            startY = d3.select(this).attr('cy')*1
+                            startY = characterMap.get(d3.select(this).attr('class')).y*1;
                         } 
                     }
                 })
@@ -39,13 +39,15 @@ function generateGroup(duration) {
                         for(var j = 0; j < sortedCharacterArr.length; j++) {
                             if(d3.select(this).attr('class') == sortedCharacterArr[j].attr('class')) {
                                 var characterID = sortedCharacterArr[j].attr('class')
-                                if(duration > 0) {
-                                    d3.select(this).transition().tween('rearrange', function(){ return function(){removeOldLineAndGenerateNewLine(characterID)}}).attr('cy', startY + j*circle_distance_group).duration(duration)
-                                } else {
-                                    d3.select(this).attr('cy', startY + j*circle_distance_group)
-                                    removeOldLineAndGenerateNewLine(characterID)
-                                }
-                                
+
+                                if(d3.select(this).attr('cy') != startY + j*circle_distance_group) {
+                                    if(duration > 0) {
+                                        d3.select(this).transition().delay(i*delay_time).tween('rearrange', function(){ return function(){removeOldLineAndGenerateNewLine(characterID)}}).attr('cy', startY + j*circle_distance_group).duration(duration)
+                                    } else {
+                                        d3.select(this).attr('cy', startY + j*circle_distance_group)
+                                        removeOldLineAndGenerateNewLine(characterID)
+                                    }
+                                }                                
                             }
                         }
                     }
@@ -109,7 +111,7 @@ function ungroup() {
 
         var scenesNumber = character.attr("scenesNumber")
         var characterID = character.attr("class")
-         console.log("scenesNumber"+scenesNumber)
+
         selectedCharacter.forEach(function(character){
             var characterID = character.attr("class")
             if(scenes[scenesNumber].hasOwnProperty("groups")) {
@@ -119,8 +121,7 @@ function ungroup() {
                         scenes[scenesNumber].groups[i].character.splice(charGroupIndex, 1);
 
                         var characterY = characterMap.get(characterID).y;
-                        console.log(characterY);
-                        character.transition().attr('cy', characterY).duration(duration_time)
+                        character.transition().tween('rearrange', function(){ return function(){removeOldLineAndGenerateNewLine(characterID)}}).attr('cy', characterY).duration(duration_time)
                         return;
                     }
                 }
