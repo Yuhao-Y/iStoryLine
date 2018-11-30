@@ -1,5 +1,5 @@
 //generate the group coordinate by the gourp info in the scenes
-function generateGroup(duration) {
+function generateGroup(duration, delay_time) {
 
     for(var i = 0; i < scenes.length; i++) {
         if(scenes[i].hasOwnProperty("groups")) {
@@ -100,7 +100,7 @@ function group() {
     scenes[scenesNumber].groups.push(newGroup);
 
 
-    generateGroup(duration_time);
+    generateGroup(duration_time, 0);
 
     selectedCharacter = new Array();
 }

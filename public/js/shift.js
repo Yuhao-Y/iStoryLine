@@ -12,7 +12,7 @@ function shiftted() {
 function shiftended() {
     d3.event.subject.active = false;
     reArrangeCharacter();
-    generateGroup(duration_time);
+    generateGroup(duration_time, delay_time);
 }
 
 //if duration > 0 , the shift action will have animation

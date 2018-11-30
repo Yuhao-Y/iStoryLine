@@ -117,7 +117,7 @@ d3.json(dataPath, function(err, data){
     //move up the circle over the line to make the circle selection easily
     d3.select(".storyBoard").selectAll("circle").remove();
     drawCircle(characters);
-    generateGroup(duration_time);
+    generateGroup(duration_time, delay_time);
 
     //add drag event
     d3.select(".storyBoard").selectAll("circle").call(d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended));
