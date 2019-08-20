@@ -1,22 +1,22 @@
 {
 	"characters": [{
-			"id": "AB",
-			"name": "Agent_Brown",
-			"affiliation": "light",
-			"profile": "data/characters/Agent_Brown.png",
-			"color": "#66ff99",
-			"gender": "",
-			"startTimestamp": 1,
-			"endTimestamp": 65
-		},
-		{
-			"id": "AJ",
-			"name": "Agent_Jones",
-			"profile": "data/characters/Agent_Jones.png",
+			"id": "Captains",
+			"name": "Captains",
+			"profile": "data/characters/Captains.png",
 			"color": "#99ffcc",
 			"gender": "",
-			"startTimestamp": 1,
-			"endTimestamp": 65
+			"startTimestamp": 4,
+			"endTimestamp": 60
+		},
+		{
+			"id": "A",
+			"name": "Agents",
+			"affiliation": "light",
+			"profile": "data/characters/Agent_Jones.png",
+			"color": "#66ff99",
+			"gender": "",
+			"startTimestamp": 7,
+			"endTimestamp": 60
 		},
 		{
 			"id": "AS",
@@ -24,26 +24,26 @@
 			"profile": "data/characters/Agent_Smith.png",
 			"color": "#006600",
 			"gender": "",
-			"startTimestamp": 1,
-			"endTimestamp": 58
+			"startTimestamp": 7,
+			"endTimestamp": 60
 		},
 		{
-			"id": "Dozer",
-			"name": "Dozer",
-			"profile": "data/characters/Dozer.png",
+			"id": "Niobe",
+			"name": "Niobe",
+			"profile": "data/characters/Niobe.png",
 			"color": "#6699ff",
 			"gender": "",
-			"startTimestamp": 12,
-			"endTimestamp": 37
+			"startTimestamp": 4,
+			"endTimestamp": 60
 		},
 		{
-			"id": "Tank",
-			"name": "Tank",
-			"profile": "data/characters/Tank.png",
+			"id": "Link",
+			"name": "Link",
+			"profile": "data/characters/Link.png",
 			"color": "#1a1aff",
 			"gender": "",
-			"startTimestamp": 12,
-			"endTimestamp": 65
+			"startTimestamp": 1,
+			"endTimestamp": 60
 		},
 		{
 			"id": "Oracle",
@@ -51,8 +51,17 @@
 			"profile": "data/characters/Oracle.png",
 			"color": "#993333",
 			"gender": "",
-			"startTimestamp": 26,
-			"endTimestamp": 65
+			"startTimestamp": 13,
+			"endTimestamp": 60
+		},
+		{
+			"id": "Seraph",
+			"name": "Seraph",
+			"profile": "data/characters/Seraph.png",
+			"color": "#ffff00",
+			"gender": "",
+			"startTimestamp": 13,
+			"endTimestamp": 60
 		},
 		{
 			"id": "Neo",
@@ -60,8 +69,8 @@
 			"profile": "data/characters/Neo.png",
 			"color": "#0099cc",
 			"gender": "",
-			"startTimestamp": 5,
-			"endTimestamp": 65
+			"startTimestamp": 1,
+			"endTimestamp": 60
 		},
 		{
 			"id": "Trinity",
@@ -70,7 +79,7 @@
 			"color": "#ff66ff",
 			"gender": "",
 			"startTimestamp": 1,
-			"endTimestamp": 65
+			"endTimestamp": 60
 		},
 		{
 			"id": "Morpheus",
@@ -78,44 +87,35 @@
 			"profile": "data/characters/Morpheus.png",
 			"color": "#ff3300",
 			"gender": "",
-			"startTimestamp": 7,
-			"endTimestamp": 65
+			"startTimestamp": 1,
+			"endTimestamp": 60
 		},
 		{
-			"id": "Switch",
-			"name": "Switch",
-			"profile": "data/characters/Switch.png",
-			"color": "#ffff00",
-			"gender": "",
-			"startTimestamp": 10,
-			"endTimestamp": 37
-		},
-		{
-			"id": "Apoc",
-			"name": "Apoc",
-			"profile": "data/characters/Apoc.png",
+			"id": "Frenchman",
+			"name": "the Frenchman",
+			"profile": "data/characters/Frenchman.png",
 			"color": "#cc9900",
 			"gender": "",
-			"startTimestamp": 10,
-			"endTimestamp": 37
+			"startTimestamp": 19,
+			"endTimestamp": 60
 		},
 		{
-			"id": "Cypher",
-			"name": "Cypher",
-			"profile": "data/characters/Cypher.png",
+			"id": "Soren",
+			"name": "Soren",
+			"profile": "data/characters/Soren.png",
 			"color": "#ccccff",
 			"gender": "",
-			"startTimestamp": 10,
-			"endTimestamp": 38
+			"startTimestamp": 4,
+			"endTimestamp": 48
 		},
 		{
-			"id": "Mouse",
-			"name": "Mouse",
-			"profile": "data/characters/Mouse.png",
+			"id": "Persephone",
+			"name": "Persephone",
+			"profile": "data/characters/Persephone.png",
 			"color": "#ff9999",
 			"gender": "",
-			"startTimestamp": 16,
-			"endTimestamp": 34
+			"startTimestamp": 19,
+			"endTimestamp": 60
 		},
 		{
 			"id": "Sentinels",
@@ -125,133 +125,364 @@
 			"gender": "",
 			"startTimestamp": 22,
 			"endTimestamp": 60
+		},
+		{
+			"id": "Twins",
+			"name": "Twins",
+			"profile": "data/characters/Twins.png",
+			"color": "#730099",
+			"gender": "",
+			"startTimestamp": 19,
+			"endTimestamp": 36
+		},
+		{
+			"id": "Keymaker",
+			"name": "Keymaker",
+			"profile": "data/characters/Keymaker.png",
+			"color": "#730099",
+			"gender": "",
+			"startTimestamp": 24,
+			"endTimestamp": 53
+		},
+		{
+			"id": "Architect",
+			"name": "Architect",
+			"profile": "data/characters/Architect.png",
+			"color": "#730099",
+			"gender": "",
+			"startTimestamp": 53,
+			"endTimestamp": 60
 		}
 
 	],
 	"scenes": [{
 			"name": "Start",
-			"startTimestamp": 1,
-			"endTimestamp": 1
-		},
-		{
-			"name": "Trinity escape from agents",
 			"groups": [{
-				"character": ["Trinity", "AB", "AJ", "AS"],
+				"character": ["Trinity", "Neo", "Morpheus", "Link"],
 				"type": "default"
 			}],
-			"startTimestamp": 2,
-			"endTimestamp": 3
+			"startTimestamp": 3,
+			"endTimestamp": 4
 		},
 		{
-			"name": "Peace1",
-			"startTimestamp": 4,
-			"endTimestamp": 5
-		},
-		{
-			"name": "Trinity meets Neo",
+			"name": "Captains meeting",
 			"groups": [{
-				"character": ["Neo", "Trinity"],
+				"character": ["Trinity", "Neo", "Morpheus", "Niobe", "Captains","Soren"],
 				"type": "default"
 			}],
-			"startTimestamp": 6,
+			"startTimestamp": 5,
 			"endTimestamp": 7
 		},
 		{
-			"name": "Neo arrested by agents",
+			"name": "Neo fights agents",
 			"groups": [{
-				"character": ["Neo", "AB", "AJ", "AS"],
+				"character": ["Neo","AS","A"],
+				"type": "default"
+			},
+			{
+				"character": ["Trinity","Morpheus","Niobe","Captains","Soren"],
 				"type": "default"
 			}],
 			"startTimestamp": 8,
+			"endTimestamp": 9
+		},
+		{
+			"name": "Back to Zion",
+			"groups": [{
+				"character": ["Trinity","Neo","Morpheus","Link","Captains","Niobe","Soren"],
+				"type": "default"
+			}],
+			"startTimestamp": 6,
 			"endTimestamp": 10
 		},
 		{
-			"name": "Neo meets Trinity, Apoc and Switch",
+			"name": "Nebuchadnezzar leaves",
 			"groups": [{
-				"character": ["Trinity", "Apoc", "Neo", "Switch"],
+				"character": ["Trinity", "Neo", "Morpheus", "Link"],
 				"type": "default"
 			}],
 			"startTimestamp": 11,
 			"endTimestamp": 12
 		},
 		{
-			"name": "Neo meets Morpheus and some of his team",
+			"name": "Neo meets Oracle",
 			"groups": [{
-					"character": ["Morpheus", "Trinity", "Apoc", "Neo", "Switch", "Cypher"],
+				"character": ["Trinity","Morpheus", "Link"],
+				"type": "default"
+			},
+			{
+				"character": ["Neo","Seraph","Oracle"],
+				"type": "default"
+			}],
+			"startTimestamp": 13,
+			"endTimestamp": 15
+		},
+		{
+			"name": "Neo fights Agent Smith",
+			"groups": [{
+					"character": ["Morpheus", "Trinity", "Link"],
 					"type": "default"
 				},
 				{
-					"character": ["Tank", "Dozer"],
+					"character": ["Oracle", "Seraph"],
+					"type": "default"
+				},
+				{
+					"character": ["Neo", "AS"],
 					"type": "default"
 				}
 			],
-			"startTimestamp": 13,
-			"endTimestamp": 16
+			"startTimestamp": 16,
+			"endTimestamp": 19
 		},
 		{
-			"name": "Neo to the real world",
+			"name": "Neo, Morpheus and Trinity meet the Frenchman",
 			"groups": [{
-				"character": ["Tank", "Morpheus", "Trinity", "Apoc", "Dozer", "Mouse", "Neo", "Switch", "Cypher"],
+				"character": ["Morpheus","Trinity","Neo","Frenchman", "Persephone","Twins"],
 				"type": "default"
-			}],
-			"startTimestamp": 17,
+			},
+			{
+					"character": ["Oracle","Seraph"],
+					"type": "default"
+				}],
+			"startTimestamp": 20,
 			"endTimestamp": 22
 		},
 		{
-			"name": "Nebuchadnezzar encounters sentinels",
+			"name": "Neo kisses Persephone",
 			"groups": [{
-				"character": ["Tank", "Trinity", "Apoc", "Morpheus", "Dozer", "Mouse", "Neo", "Switch", "Cypher", "Sentinels"],
+				"character": ["Morpheus","Trinity","Neo","Persephone"],
 				"type": "default"
-			}],
+			},
+			{	"character": ["Frenchman","Twins"],
+				"type": "default"
+			},
+			{
+				"character": ["Oracle","Seraph"],
+				"type": "default"
+			}
+			],
 			"startTimestamp": 23,
 			"endTimestamp": 24
 		},
 		{
-			"name": "Cypher meets Agent Smith and plans to betray",
+			"name": "Persephone leads them to the Keymaker",
 			"groups": [{
-					"character": ["AS", "Cypher"],
-					"type": "default"
-				},
-				{
-					"character": ["Tank", "Morpheus", "Trinity", "Apoc", "Dozer", "Mouse", "Neo", "Switch"],
-					"type": "default"
-				}
-			],
+				"character": ["Keymaker","Morpheus","Trinity","Neo","Frenchman", "Persephone","Twins"],
+				"type": "default"
+			},
+			{
+				"character": ["Oracle", "Seraph"],
+				"type": "default"
+			}],
 			"startTimestamp": 25,
-			"endTimestamp": 26
+			"endTimestamp": 27
 		},
 		{
-			"name": "Morpheus and Trinity lead Neo to meet the Oracle",
+			"name": "Neo facing the Twins and let Morpheus and Trinity escape with Keymaker",
 			"groups": [{
-					"character": ["Oracle", "Trinity", "Morpheus", "Neo"],
+					"character": ["Neo", "Frenchman"],
 					"type": "default"
 				},
 				{
-					"character": ["Apoc", "Switch", "Mouse", "Cypher"],
+					"character": ["Oracle", "Seraph"],
 					"type": "default"
 				},
 				{
-					"character": ["Tank", "Dozer"],
+					"character": ["Morpheus","Trinity","Keymaker","Twins"],
 					"type": "default"
 				}
 			],
-			"startTimestamp": 27,
-			"endTimestamp": 28
-		},
-		{
-			"name": "Morpheus's team gathers to leave the Matrix after Neo met the Oracle",
-			"groups": [{
-					"character": ["Trinity", "Morpheus", "Neo", "Apoc", "Mouse", "Switch", "Cypher"],
-					"type": "default"
-				},
-				{
-					"character": ["Tank", "Dozer"],
-					"type": "default"
-				}
-			],
-			"startTimestamp": 29,
+			"startTimestamp": 28,
 			"endTimestamp": 30
-		}
+		},
+		{
+			"name": "Morpheus, Trinity and Keymaker escape from Twins and Agents ",
+			"groups": [{
+					"character": ["Morpheus","Trinity","Keymaker","Twins","A"],
+					"type": "default"
+				},
+				{
+					"character": ["Oracle", "Seraph"],
+					"type": "default"
+				}
+			],
+			"startTimestamp": 31,
+			"endTimestamp": 33
+		},
+		{
+			"name": "Morpheus facing the Twins and let Trinity and Keymaker get out",
+			"groups": [{
+					"character": ["Morpheus","Twins"],
+					"type": "default"
+				},
+				{
+					"character": ["Trinity","Keymaker","A"],
+					"type": "default"
+				},
+				{
+					"character": ["Oracle", "Seraph"],
+					"type": "default"
+				}
+			],
+			"startTimestamp": 34,
+			"endTimestamp": 36
+		},
+		{
+			"name": "Morpheus gets the keymaker but he has to fight the Agents  ",
+			"groups": [{
+					"character": ["Morpheus","Keymaker","A"],
+					"type": "default"
+				},
+				{
+					"character": ["Oracle", "Seraph"],
+					"type": "default"
+				}
+				
+			],
+			"startTimestamp": 37,
+			"endTimestamp": 38
+		},
+		{
+			"name": "Niobe arrives in time to help Morpheus",
+			"groups": [{
+					"character": ["Morpheus","Keymaker","A","Niobe"],
+					"type": "default"
+				},
+				{
+					"character": ["Oracle", "Seraph"],
+					"type": "default"
+				}
+			],
+			"startTimestamp": 39,
+			"endTimestamp": 40
+		},
+		{
+			"name": "Neo saves Morpheus and the keymaker",
+			"groups": [{
+					"character": ["Neo","Morpheus","Keymaker","Niobe"],
+					"type": "default"
+				},
+				{
+					"character": ["Oracle", "Seraph"],
+					"type": "default"
+				}
+			],
+			"startTimestamp": 41,
+			"endTimestamp": 42
+		},
+		{
+			"name": "Meeting before the final war",
+			"groups": [{
+					"character": ["Neo","Trinity","Morpheus","Keymaker","Niobe","Soren"],
+					"type": "default"
+				},
+				{
+					"character": ["Oracle", "Seraph"],
+					"type": "default"
+				}
+			],
+			"startTimestamp": 43,
+			"endTimestamp": 44
+		},
+		{
+			"name": "Final war begins",
+			"groups": [{
+				"character": ["Neo","Morpheus","Keymaker"],
+				"type": "default"
+			},
+			{
+				"character": ["Trinity", "Link"],
+				"type": "default"
+			},
+			{
+				"character": ["Oracle", "Seraph"],
+				"type": "default"
+			}],
+			"startTimestamp": 45,
+			"endTimestamp": 46
+		},
+		{
+			"name": "Soren's ship distroyed by Sentinels",
+			"groups": [{
+					"character": ["Neo","Morpheus","Keymaker"],
+					"type": "default"
+				},
+				{
+					"character": ["Trinity", "Link"],
+					"type": "default"
+				},
+				{
+					"character": ["Soren", "Sentinels"],
+					"type": "default"
+				},
+				{
+					"character": ["Oracle", "Seraph"],
+					"type": "default"
+				}
+			],
+			"startTimestamp": 47,
+			"endTimestamp": 48
+		},
+		{
+			"name": "Neo, Morepheus and the keymaker reach the final floor and encounter a bunch of Agent Smith. Meanwhile Trinity plugged into Matrix to help",
+			"groups": [{
+					"character": ["Neo","Morpheus","Keymaker","AS"],
+						"type": "default"
+					},
+					{
+						"character": ["Trinity", "A"],
+						"type": "default"
+					},
+					{
+					"character": ["Oracle", "Seraph"],
+					"type": "default"
+				}
+				],
+				"startTimestamp": 49,
+				"endTimestamp": 53
+			},
+			{
+				"name": "Neo goes to the source and Morpheus goes home",
+				"groups": [{
+						"character": ["Morpheus", "Link"],
+						"type": "default"
+					},
+					{
+						"character": ["Neo", "Architect"],
+						"type": "default"
+					},
+					{
+						"character": ["Trinity", "A"],
+						"type": "default"
+					},
+					{
+						"character": ["Oracle", "Seraph"],
+						"type": "default"
+					}
+				],
+				"startTimestamp": 54,
+				"endTimestamp": 56
+			},
+			{
+				"name": "Neo saves Trinity instead of Zion",
+				"groups": [{
+						"character": ["Neo","Trinity"],
+						"type": "default"
+					},
+					{
+						"character": ["Morpheus", "Link"],
+						"type": "default"
+					},
+					{
+						"character": ["Oracle", "Seraph"],
+						"type": "default"
+					}
+				],
+				"startTimestamp": 57,
+				"endTimestamp": 60
+			}
+
 		]
 
 	}
